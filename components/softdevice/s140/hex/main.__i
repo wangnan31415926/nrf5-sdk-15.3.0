@@ -1,0 +1,3 @@
+-c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I..\..\..\config -I..\config --reduce_paths
+-I C:\Users\wn\Desktop\nRF5_SDK_15.3.0_59ac345\nRF5_SDK_15.3.0_59ac345\examples\ble_peripheral\ble_app_uart\pca10056\s140\arm5_no_packs\RTE
+-D_RTE_ -D__HEAP_SIZE="8192" -D__STACK_SIZE="8192" -o ..\..\..\..\..\..\components\softdevice\s140\hex\main.o --omf_browse ..\..\..\..\..\..\components\softdevice\s140\hex\main.crf --depend ..\..\..\..\..\..\components\softdevice\s140\hex\main.d "..\..\..\main.c"
