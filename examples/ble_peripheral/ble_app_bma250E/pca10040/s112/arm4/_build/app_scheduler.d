@@ -1,0 +1,15 @@
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\scheduler\app_scheduler.c
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\util\sdk_common.h
+.\_build\app_scheduler.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\app_scheduler.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\app_scheduler.o: C:\Keil\ARM\RV31\INC\string.h
+.\_build\app_scheduler.o: ..\config\sdk_config.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\util\nordic_common.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\modules\nrfx\mdk\compiler_abstraction.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\util\sdk_os.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\util\sdk_errors.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\softdevice\s112\headers\nrf_error.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\components\libraries\util\app_util.h
+.\_build\app_scheduler.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\app_scheduler.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h

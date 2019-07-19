@@ -80,6 +80,8 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
+#include "app_scheduler.h"
+
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 
 #define DEVICE_NAME                     "YAXNordic_UART"                               /**< Name of device. Will be included in the advertising data. */
@@ -112,6 +114,9 @@ NRF_BLE_GATT_DEF(m_gatt);                                                       
 NRF_BLE_QWR_DEF(m_qwr);                                                             /**< Context for the Queued Write module.*/
 BLE_ADVERTISING_DEF(m_advertising);                                                 /**< Advertising module instance. */
 
+unsigned char uartbuf[50];
+unsigned char length=0;
+
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 static uint16_t   m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 static ble_uuid_t m_adv_uuids[]          =                                          /**< Universally unique service identifier. */
@@ -129,6 +134,17 @@ static void application_timers_start(void)
     APP_ERROR_CHECK(err_code);
 
 }
+
+
+void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
+{
+	    for (uint32_t i = 0; i < length; i++)
+    {
+        app_uart_put(uartbuf[i]);
+    }
+		length=0;
+}
+
 
 void test_timeout_handler(void * p_context)
 {
@@ -237,19 +253,24 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)
 
         NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
         NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-
-        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
-        {
-            do
-            {
-                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
-                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
-                {
-                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
-                    APP_ERROR_CHECK(err_code);
-                }
-            } while (err_code == NRF_ERROR_BUSY);
-        }
+//
+			
+				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
+	length=p_evt->params.rx_data.length;
+	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
+//        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
+//        {
+//            do
+//            {
+//                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
+//                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
+//                {
+//                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
+//                    APP_ERROR_CHECK(err_code);
+//                }
+//            } while (err_code == NRF_ERROR_BUSY);
+//        }
+				//
         if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
         {
             while (app_uart_put('\n') == NRF_ERROR_BUSY);
@@ -567,9 +588,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
             UNUSED_VARIABLE(app_uart_get(&data_array[index]));
             index++;
 
-            if ((data_array[index - 1] == '\n') ||
-                (data_array[index - 1] == '\r') ||
-                (index >= m_ble_nus_max_data_len))
+            if (index >=7)//((data_array[index - 1] == '\n') || (data_array[index - 1] == '\r') || (index >= m_ble_nus_max_data_len))
             {
                 if (index > 1)
                 {
@@ -747,6 +766,7 @@ int main(void)
     log_init();
     timers_init();
     buttons_leds_init(&erase_bonds);
+		APP_SCHED_INIT(50,30);  //wn
     power_management_init();
     ble_stack_init();
     gap_params_init();
@@ -765,6 +785,7 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
+			  app_sched_execute();
         idle_state_handle();
     }
 }

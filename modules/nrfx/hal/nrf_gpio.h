@@ -539,7 +539,6 @@ __STATIC_INLINE void nrf_gpio_cfg(
                                | ((uint32_t)sense << GPIO_PIN_CNF_SENSE_Pos);
 }
 
-
 __STATIC_INLINE void nrf_gpio_cfg_output(uint32_t pin_number)
 {
     nrf_gpio_cfg(

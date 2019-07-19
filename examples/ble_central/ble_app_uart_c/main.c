@@ -739,9 +739,9 @@ static void application_timers_start(void)
 {
     ret_code_t err_code;
 
-    // Start application timers.
-    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(1000), NULL);
-    APP_ERROR_CHECK(err_code);
+//    // Start application timers.
+//    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(1000), NULL);
+//    APP_ERROR_CHECK(err_code);
 
 }
 /**@brief Function for changing the tx power.
