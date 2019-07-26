@@ -1,0 +1,15 @@
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\libraries\bsp\bsp_btn_ble.c
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\libraries\bsp\bsp_btn_ble.h
+.\_build\bsp_btn_ble.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\nrf_svc.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\nrf_error.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_err.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_gap.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_hci.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_ranges.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_types.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_gatt.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_gattc.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\bsp_btn_ble.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h

@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue Jul 02 18:19:59 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Thu Jul 25 13:48:08 2019
 <BR><P>
 <H3>Maximum Stack Usage =        248 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -454,8 +454,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> arm_startup_nrf52840.o(RESET)
 </UL>
-<P><STRONG><a name="[a]"></a>POWER_CLOCK_IRQHandler</STRONG> (Thumb, 82 bytes, Stack size 16 bytes, nrfx_clock.o(i.POWER_CLOCK_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = POWER_CLOCK_IRQHandler &rArr; nrf_clock_event_clear
+<P><STRONG><a name="[a]"></a>POWER_CLOCK_IRQHandler</STRONG> (Thumb, 154 bytes, Stack size 24 bytes, nrfx_clock.o(i.POWER_CLOCK_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = POWER_CLOCK_IRQHandler &rArr; nrf_clock_event_clear
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_clock_event_clear
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_clock_event_check
@@ -1255,7 +1255,7 @@ Global Symbols
 <LI><a href="#[5a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 </UL>
 
-<P><STRONG><a name="[fa]"></a>nrfx_clock_init</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, nrfx_clock.o(i.nrfx_clock_init))
+<P><STRONG><a name="[fa]"></a>nrfx_clock_init</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, nrfx_clock.o(i.nrfx_clock_init))
 <BR><BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_clock_init
 </UL>
 

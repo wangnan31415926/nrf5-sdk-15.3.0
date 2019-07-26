@@ -1,0 +1,10 @@
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\modules\nrfx\drivers\src\prs\nrfx_prs.c
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\modules\nrfx\nrfx.h
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\integration\nrfx\nrfx_config.h
+.\_build\nrfx_prs.o: ..\config\sdk_config.h
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\modules\nrfx\drivers/nrfx_common.h
+.\_build\nrfx_prs.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\nrfx_prs.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\nrfx_prs.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\nrfx_prs.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h
