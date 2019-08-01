@@ -28,27 +28,29 @@ Project File Date:  06/17/2019
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'nrf52840_xxaa'
 compiling main.c...
-..\..\..\main.c(159): warning:  #177-D: variable "err_code"  was declared but never referenced
+..\..\..\main.c(167): warning:  #177-D: variable "err_code"  was declared but never referenced
   		   uint32_t err_code;
-..\..\..\main.c(215): warning:  #177-D: variable "i"  was declared but never referenced
+..\..\..\main.c(225): warning:  #177-D: variable "i"  was declared but never referenced
   	static unsigned char i=0;
-..\..\..\main.c(216): warning:  #177-D: variable "j"  was declared but never referenced
+..\..\..\main.c(226): warning:  #177-D: variable "j"  was declared but never referenced
   	static unsigned short j=1;
-..\..\..\main.c(328): warning:  #177-D: variable "err_code"  was declared but never referenced
+..\..\..\main.c(344): warning:  #177-D: variable "err_code"  was declared but never referenced
           uint32_t err_code;
-..\..\..\main.c(670): warning:  #177-D: variable "err_code"  was declared but never referenced
+..\..\..\main.c(687): warning:  #177-D: variable "err_code"  was declared but never referenced
       uint32_t       err_code;
-..\..\..\main.c(863): warning:  #177-D: variable "erase_bonds"  was declared but never referenced
+..\..\..\main.c(884): warning:  #177-D: variable "erase_bonds"  was declared but never referenced
       bool erase_bonds;
-..\..\..\main.c(791): warning:  #177-D: function "buttons_leds_init"  was declared but never referenced
+..\..\..\main.c(812): warning:  #177-D: function "buttons_leds_init"  was declared but never referenced
   static void buttons_leds_init(bool * p_erase_bonds)
-..\..\..\main.c(807): warning:  #177-D: function "log_init"  was declared but never referenced
+..\..\..\main.c(828): warning:  #177-D: function "log_init"  was declared but never referenced
   static void log_init(void)
-..\..\..\main.c: 8 warnings, 0 errors
+..\..\..\main.c(871): warning:  #177-D: function "tx_power_set"  was declared but never referenced
+  static void tx_power_set(void)
+..\..\..\main.c: 9 warnings, 0 errors
 linking...
-Program Size: Code=17252 RO-data=1028 RW-data=216 ZI-data=12336  
+Program Size: Code=17340 RO-data=1036 RW-data=216 ZI-data=12368  
 FromELF: creating hex file...
-".\_build\nrf52840_xxaa.axf" - 0 Error(s), 8 Warning(s).
+".\_build\nrf52840_xxaa.axf" - 0 Error(s), 9 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -75,8 +77,8 @@ Package Vendor: NordicSemiconductor
 
    * Component: NordicSemiconductor::Device:Startup:8.24.1
       Source file:   Device\Source\arm\arm_startup_nrf52840.s
-      Source file:   Device\Source\system_nrf52840.c
       Include file:  Device\Include\system_nrf52840.h
+      Source file:   Device\Source\system_nrf52840.c
 Build Time Elapsed:  00:00:04
 </pre>
 </body>

@@ -111,6 +111,7 @@
 #define MAX_num 5
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
 APP_TIMER_DEF(m_rssi_timer_id);
+APP_TIMER_DEF(m_wait_timer_id);
 
 BLE_NUS_DEF(m_nus, NRF_SDH_BLE_TOTAL_LINK_COUNT);                                   /**< BLE NUS service instance. */
 NRF_BLE_GATT_DEF(m_gatt);                                                           /**< GATT module instance. */
@@ -152,6 +153,13 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
 		length=0;
 }
 
+
+void waitlog_timeout_handler(void *p_context)
+{
+	UNUSED_PARAMETER(p_context);
+	printf("waiting\r\n");
+}
+
 unsigned int Sum=0;
 unsigned short sum_count=0;
 void rssi_timeout_handler(void *p_context)
@@ -159,6 +167,7 @@ void rssi_timeout_handler(void *p_context)
 		   uint32_t err_code;
        int8_t rssi;
 		   uint8_t value[2];
+	UNUSED_PARAMETER(p_context);
     sd_ble_gap_rssi_get(m_conn_handle, &rssi,value);
 //	printf("CH_id: %d\r\n",value[0]);
 	rssi=0-rssi;
@@ -173,6 +182,7 @@ void rssi_timeout_handler(void *p_context)
      }
      else
 		 {
+			 app_timer_stop(m_wait_timer_id);
        SET_length=(Sum/sum_count)+3;
 			 if(SET_length>60){SET_length=SET_length-3;}
 			 printf("calibration is ok: %d\r\n",SET_length);
@@ -265,6 +275,12 @@ static void timers_init(void)
 	    err_code = app_timer_create(&m_rssi_timer_id,
                                 APP_TIMER_MODE_REPEATED,
                                 rssi_timeout_handler);
+    APP_ERROR_CHECK(err_code);
+	
+	
+		    err_code = app_timer_create(&m_wait_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                waitlog_timeout_handler);
     APP_ERROR_CHECK(err_code);
 
 }
@@ -512,6 +528,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             NRF_LOG_INFO("Disconnected");
 				sd_ble_gap_rssi_stop(m_conn_handle);
 			err_code = app_timer_stop(m_rssi_timer_id);
+				app_timer_stop(m_wait_timer_id);
              flag_led=0;
 				     rssi_fail_num=0;
 				     rssi_succe_num=0;
@@ -695,7 +712,11 @@ void uart_event_handle(app_uart_evt_t * p_event)
 										          printf("Set Ok \r\n");
 											break;
 										case 0x0b:AUTO_flag=1;
+										          app_timer_start(m_wait_timer_id,APP_TIMER_TICKS(1000), NULL);
 											        
+											break;
+										case 0x0c:
+										         printf("SET RSSI: %d\r\n",SET_length);
 											break;
 										default:printf("Cmd error \r\n");
 										 break;
@@ -880,7 +901,7 @@ int main(void)
     // Start execution.
     printf("\r\nUART started.\r\n");
     NRF_LOG_INFO("Debug logging for UART over RTT started.");
-	  tx_power_set();
+//	  tx_power_set();
     advertising_start();
 //	
 	  application_timers_start();

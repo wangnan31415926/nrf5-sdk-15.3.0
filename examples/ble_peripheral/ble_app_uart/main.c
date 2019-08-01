@@ -120,6 +120,8 @@ unsigned char uartbuf[50];
 unsigned char length=0;
 unsigned char SET_length=50;
 
+static void advertising_start(void);
+
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 static uint16_t   m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 static ble_uuid_t m_adv_uuids[]          =                                          /**< Universally unique service identifier. */
@@ -147,59 +149,60 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
     }
 		length=0;
 }
-unsigned char flag_led=0;
-unsigned char rssi_fail_num=0;
+
+unsigned char connect_flag=0;
 #define MAX_num 5
 void rssi_timeout_handler(void *p_context)
 {
-		   uint32_t err_code;
-       int8_t rssi;
-		   uint8_t value[2];
-    sd_ble_gap_rssi_get(m_conn_handle, &rssi,value);
-	printf("CH_id: %d\r\n",value[0]);
-	rssi=0-rssi;
-    printf("rssi: %d\r\n",rssi);//
+//		   uint32_t err_code;
+//       int8_t rssi;
+//		   uint8_t value[2];
+//  sd_ble_gap_rssi_get(m_conn_handle, &rssi,value);
+//	rssi=0-rssi;
 
-   if(rssi>(SET_length))
-	 {
-		 if(rssi_fail_num<MAX_num)
-		 {rssi_fail_num++;}
-//		 flag_led=0;
-	 }
-	 else
-	 {
 
-		 rssi_fail_num=0;
-		 
-	 }
-	 
-	 if(rssi_fail_num>MAX_num-1)
-	 {
-		 flag_led=0;
-	 }
-	 else
-	 {flag_led=1;}
-    
  }
 
 void test_timeout_handler(void * p_context)
 {
 	static unsigned char i=0;
-	static unsigned short j=1;
+	static unsigned short j=2;
+			   uint32_t err_code;
+       int8_t rssi;
+		   uint8_t value[2];
 	 UNUSED_PARAMETER(p_context);
-//	 app_uart_put(i++);
 	
-//		 ble_nus_data_send(&m_nus, &i, &j, m_conn_handle);
+//////////////////////	if(connect_flag==0)
+//////////////////////	{sd_ble_gap_adv_stop(m_advertising.adv_handle);}
+//////////////////////	else
+//////////////////////	{advertising_start();
+////////////////////////	app_timer_stop(m_test_timer_id);
+//////////////////////	}
+//////////////////////	connect_flag=~connect_flag;
+	if(connect_flag==1)
+	{
+ sd_ble_gap_rssi_get(m_conn_handle, &rssi,value);
+	rssi=0-rssi;
+	
+//	 app_uart_put(i++);
+	value[0]=(rssi/10)+0x30;
+	value[1]=(rssi%10)+0x30;
+//		app_uart_put(rssi);
+		 ble_nus_data_send(&m_nus, value, &j, m_conn_handle);
+		
 //	i++;
 
-	if(flag_led==0)
-	{
-		nrf_gpio_pin_toggle(LED);
+nrf_gpio_pin_clear(LED);
+
+		
 	}
 	else
 	{
-		nrf_gpio_pin_clear(LED);
+	nrf_gpio_pin_toggle(LED);	
 	}
+			
+ 
+	
 	 
 }
 
@@ -293,35 +296,35 @@ static void nrf_qwr_error_handler(uint32_t nrf_error)
 static void nus_data_handler(ble_nus_evt_t * p_evt)
 {
 
-    if (p_evt->type == BLE_NUS_EVT_RX_DATA)
-    {
-        uint32_t err_code;
+//    if (p_evt->type == BLE_NUS_EVT_RX_DATA)
+//    {
+//        uint32_t err_code;
 
-        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
-        NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-//
-			
-				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
-	length=p_evt->params.rx_data.length;
-	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
-//        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
+//        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
+//        NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
+////
+//			
+//				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
+//	length=p_evt->params.rx_data.length;
+//	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
+////        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
+////        {
+////            do
+////            {
+////                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
+////                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
+////                {
+////                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
+////                    APP_ERROR_CHECK(err_code);
+////                }
+////            } while (err_code == NRF_ERROR_BUSY);
+////        }
+//				//
+//        if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
 //        {
-//            do
-//            {
-//                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
-//                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
-//                {
-//                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
-//                    APP_ERROR_CHECK(err_code);
-//                }
-//            } while (err_code == NRF_ERROR_BUSY);
+//            while (app_uart_put('\n') == NRF_ERROR_BUSY);
 //        }
-				//
-        if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
-        {
-            while (app_uart_put('\n') == NRF_ERROR_BUSY);
-        }
-    }
+//    }
 
 }
 /**@snippet [Handling the data received over BLE] */
@@ -471,18 +474,18 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             APP_ERROR_CHECK(err_code);
 				    
 				 sd_ble_gap_rssi_start(m_conn_handle,0,0);
-			   err_code = app_timer_start(m_rssi_timer_id,APP_TIMER_TICKS(500), NULL);
-		     APP_ERROR_CHECK(err_code);
-         rssi_fail_num=0;
+//			   err_code = app_timer_start(m_rssi_timer_id,APP_TIMER_TICKS(500), NULL);
+//		     APP_ERROR_CHECK(err_code);
+         connect_flag=1;
 
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected");
 				sd_ble_gap_rssi_stop(m_conn_handle);
-			err_code = app_timer_stop(m_rssi_timer_id);
-             flag_led=0;
-				     rssi_fail_num=0;
+//			err_code = app_timer_stop(m_rssi_timer_id);
+             
+				     connect_flag=0;
             // LED indication will be changed when advertising starts.
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
             break;
@@ -801,12 +804,18 @@ static void advertising_start(void)
     APP_ERROR_CHECK(err_code);
 }
 
+//static void advertising_stop(void)
+//{
+//    uint32_t err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
+//    APP_ERROR_CHECK(err_code);
+//}
+
 
 /**@brief Function for changing the tx power.
  */
 static void tx_power_set(void)
 {
-    ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, 0);
+    ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, 8);
     APP_ERROR_CHECK(err_code);
 }
 /**@brief Application main function.
@@ -820,7 +829,7 @@ int main(void)
     bool erase_bonds;
 
     // Initialize.
-    uart_init();
+//    uart_init();
 //    log_init();
     timers_init();
 	   nrf_gpio_cfg_output(LED);
@@ -835,11 +844,12 @@ int main(void)
     conn_params_init();
 
     // Start execution.
-    printf("\r\nUART started.\r\n");
+//    printf("\r\nUART started.\r\n");
     NRF_LOG_INFO("Debug logging for UART over RTT started.");
 	  tx_power_set();
     advertising_start();
 //	
+
 	  application_timers_start();
     // Enter main loop.
     for (;;)

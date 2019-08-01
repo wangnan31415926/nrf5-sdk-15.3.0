@@ -453,7 +453,6 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 				    //wn
 				    if(ble_conn_state_central_conn_count()!=NRF_SDH_BLE_CENTRAL_LINK_COUNT)
 						{
-							NRF_LOG_DEBUG("wn3");
 							err_code = app_timer_start(m_SCAN_timer_id, APP_TIMER_TICKS(1000), NULL);
               APP_ERROR_CHECK(err_code);
 						}
@@ -750,9 +749,15 @@ static void tx_power_set(void)
 {
     ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_SCAN_INIT, NULL, 8);
     APP_ERROR_CHECK(err_code);
-//	  ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_CONN, NULL, 8);
+//	  ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_CONN, m_db_disc , 8);
 //    APP_ERROR_CHECK(err_code);
-}
+}/**@brief Function for changing the tx power.
+ */
+//static void tx_power_set(void)
+//{
+//    ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, 8);
+//    APP_ERROR_CHECK(err_code);
+//}
 int main(void)
 {
     // Initialize.
@@ -771,7 +776,7 @@ int main(void)
     // Start execution.
     printf("BLE UART central example started.\r\n");
     NRF_LOG_INFO("BLE UART central example started.");
-//tx_power_set();
+tx_power_set();
     scan_start();
     application_timers_start();
     // Enter main loop.
