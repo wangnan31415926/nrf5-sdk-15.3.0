@@ -96,3 +96,6 @@
 .\_build\main.o: ..\..\..\IIC_DMWZ.h
 .\_build\main.o: ..\..\..\bma.h
 .\_build\main.o: ..\..\..\..\..\..\components\libraries\delay\nrf_delay.h
+.\_build\main.o: ..\..\..\..\..\..\integration\nrfx\legacy\nrf_drv_gpiote.h
+.\_build\main.o: ..\..\..\..\..\..\modules\nrfx\drivers\include\nrfx_gpiote.h
+.\_build\main.o: ..\..\..\..\..\..\modules\nrfx\hal/nrf_gpiote.h

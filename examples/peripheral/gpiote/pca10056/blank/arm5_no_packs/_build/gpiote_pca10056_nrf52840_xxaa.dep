@@ -39,7 +39,7 @@ I (..\..\..\..\..\..\modules\nrfx\soc/nrfx_coredep.h)(0x5C65965F)
 I (..\..\..\..\..\..\modules\nrfx\soc/nrfx_atomic.h)(0x5C65965F)
 I (..\..\..\..\..\..\components\libraries\util\sdk_resources.h)(0x5C659659)
 I (..\..\..\..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x5C65965E)
-I (..\..\..\..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x5C65965E)
+I (..\..\..\..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x5D2EC09B)
 I (..\..\..\..\..\..\components\boards\boards.h)(0x5C659658)
 I (..\..\..\..\..\..\components\boards\pca10056.h)(0x5C659658)
 I (..\..\..\..\..\..\integration\nrfx\legacy\nrf_drv_ppi.h)(0x5C65965E)
@@ -51,9 +51,9 @@ I (..\..\..\..\..\..\modules\nrfx\hal/nrf_timer.h)(0x5C65965E)
 I (..\..\..\..\..\..\integration\nrfx\legacy\nrf_drv_gpiote.h)(0x5C65965E)
 I (..\..\..\..\..\..\modules\nrfx\drivers\include\nrfx_gpiote.h)(0x5C65965E)
 F (..\config\sdk_config.h)(0x5C65965D)()
-F (..\..\..\..\..\..\components\boards\boards.c)(0x5C659658)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\..\..\config -I ..\..\..\..\..\..\components -I ..\..\..\..\..\..\components\boards -I ..\..\..\..\..\..\components\drivers_nrf\nrf_soc_nosd -I ..\..\..\..\..\..\components\libraries\atomic -I ..\..\..\..\..\..\components\libraries\balloc -I ..\..\..\..\..\..\components\libraries\bsp -I ..\..\..\..\..\..\components\libraries\experimental_section_vars -I ..\..\..\..\..\..\components\libraries\log -I ..\..\..\..\..\..\components\libraries\log\src -I ..\..\..\..\..\..\components\libraries\memobj -I ..\..\..\..\..\..\components\libraries\ringbuf -I ..\..\..\..\..\..\components\libraries\strerror -I ..\..\..\..\..\..\components\libraries\util -I ..\..\.. -I ..\..\..\..\..\..\external\fprintf -I ..\..\..\..\..\..\integration\nrfx -I ..\..\..\..\..\..\integration\nrfx\legacy -I ..\..\..\..\..\..\modules\nrfx -I ..\..\..\..\..\..\modules\nrfx\drivers\include -I ..\..\..\..\..\..\modules\nrfx\hal -I ..\..\..\..\..\..\modules\nrfx\mdk -I ..\config --reduce_paths-I.\RTE\_nrf52840_xxaa-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.24.1\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DNRF52840_XXAA -DBOARD_PCA10056 -DBSP_DEFINES_ONLY -DCONFIG_GPIO_AS_PINRESET -DFLOAT_ABI_HARD -DNRF52840_XXAA -D__HEAP_SIZE="8192" -D__STACK_SIZE="8192"-o .\_build\boards.o --omf_browse .\_build\boards.crf --depend .\_build\boards.d)
+F (..\..\..\..\..\..\components\boards\boards.c)(0x5D2EB54D)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ..\..\..\config -I ..\..\..\..\..\..\components -I ..\..\..\..\..\..\components\boards -I ..\..\..\..\..\..\components\drivers_nrf\nrf_soc_nosd -I ..\..\..\..\..\..\components\libraries\atomic -I ..\..\..\..\..\..\components\libraries\balloc -I ..\..\..\..\..\..\components\libraries\bsp -I ..\..\..\..\..\..\components\libraries\experimental_section_vars -I ..\..\..\..\..\..\components\libraries\log -I ..\..\..\..\..\..\components\libraries\log\src -I ..\..\..\..\..\..\components\libraries\memobj -I ..\..\..\..\..\..\components\libraries\ringbuf -I ..\..\..\..\..\..\components\libraries\strerror -I ..\..\..\..\..\..\components\libraries\util -I ..\..\.. -I ..\..\..\..\..\..\external\fprintf -I ..\..\..\..\..\..\integration\nrfx -I ..\..\..\..\..\..\integration\nrfx\legacy -I ..\..\..\..\..\..\modules\nrfx -I ..\..\..\..\..\..\modules\nrfx\drivers\include -I ..\..\..\..\..\..\modules\nrfx\hal -I ..\..\..\..\..\..\modules\nrfx\mdk -I ..\config --reduce_paths-I.\RTE\_nrf52840_xxaa-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\4.5.0\CMSIS\Include-IC:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.24.1\Device\Include-D__UVISION_VERSION="523" -D_RTE_ -DNRF52840_XXAA -DBOARD_PCA10056 -DBSP_DEFINES_ONLY -DCONFIG_GPIO_AS_PINRESET -DFLOAT_ABI_HARD -DNRF52840_XXAA -D__HEAP_SIZE="8192" -D__STACK_SIZE="8192"-o .\_build\boards.o --omf_browse .\_build\boards.crf --depend .\_build\boards.d)
 I (..\..\..\..\..\..\components\boards\boards.h)(0x5C659658)
-I (..\..\..\..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x5C65965E)
+I (..\..\..\..\..\..\modules\nrfx\hal\nrf_gpio.h)(0x5D2EC09B)
 I (..\..\..\..\..\..\modules\nrfx\nrfx.h)(0x5C65965E)
 I (..\..\..\..\..\..\integration\nrfx\nrfx_config.h)(0x5C65965E)
 I (..\config\sdk_config.h)(0x5C65965D)
@@ -217,7 +217,7 @@ I (..\..\..\..\..\..\components\libraries\util\sdk_resources.h)(0x5C659659)
 I (..\..\..\..\..\..\modules\nrfx\drivers/nrfx_errors.h)(0x5C65965E)
 I (..\..\..\..\..\..\modules\nrfx\drivers\include\nrfx_gpiote.h)(0x5C65965E)
 I (..\..\..\..\..\..\modules\nrfx\hal/nrf_gpiote.h)(0x5C65965E)
-I (..\..\..\..\..\..\modules\nrfx\hal/nrf_gpio.h)(0x5C65965E)
+I (..\..\..\..\..\..\modules\nrfx\hal/nrf_gpio.h)(0x5D2EC09B)
 I (..\..\..\..\..\..\components\libraries\util\nrf_bitmask.h)(0x5C659659)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x57F606B8)
 I (..\..\..\..\..\..\integration\nrfx\nrfx_log.h)(0x5C65965E)

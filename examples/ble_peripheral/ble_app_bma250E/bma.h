@@ -239,10 +239,10 @@
 #define BMA255_LOW_NOISE_CTRL_REG               0x12
 #define BMA255_DATA_CTRL_REG                    0x13
 #define BMA255_RESET_REG                        0x14
-#define BMA255_INT_ENABLE1_REG                  0x16
+#define BMA255_INT_ENABLE1_REG                  0x16       //设置中断使能
 #define BMA255_INT_ENABLE2_REG                  0x17
 #define BMA255_INT_SLO_NO_MOT_REG               0x18      //ADDED
-#define BMA255_INT1_PAD_SEL_REG                 0x19
+#define BMA255_INT1_PAD_SEL_REG                 0x19        //设置中断引脚int1
 #define BMA255_INT_DATA_SEL_REG                 0x1A
 #define BMA255_INT2_PAD_SEL_REG                 0x1B
 #define BMA255_INT_SRC_REG                      0x1E

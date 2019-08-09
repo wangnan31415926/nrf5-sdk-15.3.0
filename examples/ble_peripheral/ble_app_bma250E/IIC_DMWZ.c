@@ -59,7 +59,7 @@ unsigned char send_byte;
 
 void SCL_(void)
 {
-	unsigned char i=200;
+	unsigned short i=500;
 	 nrf_gpio_cfg_output(SCL); 
 	 nrf_gpio_cfg_output(SDA);
 	 nrf_gpio_pin_set(SDA);//gpio_direction_output(SDA, 1); 

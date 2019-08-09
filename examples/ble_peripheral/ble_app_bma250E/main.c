@@ -84,6 +84,7 @@
 #include "IIC_DMWZ.h"
 #include "bma.h"
 #include "nrf_delay.h"
+#include "nrf_drv_gpiote.h"
 
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 
@@ -109,6 +110,9 @@
 #define UART_TX_BUF_SIZE                256                                         /**< UART TX buffer size. */
 #define UART_RX_BUF_SIZE                256                                         /**< UART RX buffer size. */
 
+
+#define BUTTON_0    15
+
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
 
 
@@ -119,6 +123,7 @@ BLE_ADVERTISING_DEF(m_advertising);                                             
 
 unsigned char uartbuf[50];
 unsigned char length=0;
+unsigned char connect_flag=0;//蓝牙是否连接标志位
 
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 static uint16_t   m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
@@ -133,7 +138,7 @@ static void application_timers_start(void)
     ret_code_t err_code;
 
     // Start application timers.
-    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(1000), NULL);
+    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
     APP_ERROR_CHECK(err_code);
 
 }
@@ -152,15 +157,25 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
 void test_timeout_handler(void * p_context)
 {
 	static unsigned char i=0;
-	static unsigned short j=1;
+	static unsigned short j=9;
 	 UNUSED_PARAMETER(p_context);
 //	 app_uart_put(i++);
 	BMA253_Timer_Handler();
-	for(i=0;i<6;i++)
-	{
-		app_uart_put(V_BMA255FIFOData_U8R[i]);
-	}
-//		 ble_nus_data_send(&m_nus, &i, &j, m_conn_handle);
+//	for(i=0;i<6;i++)
+//	{
+//		app_uart_put(V_BMA255FIFOData_U8R[i]);
+//	}
+	  uartbuf[0]=0xaa;
+		uartbuf[1]=V_BMA255FIFOData_U8R[0];
+		uartbuf[2]=V_BMA255FIFOData_U8R[1];
+		uartbuf[3]=0xab;
+		uartbuf[4]=V_BMA255FIFOData_U8R[2];
+		uartbuf[5]=V_BMA255FIFOData_U8R[3];
+		uartbuf[6]=0xac;
+		uartbuf[7]=V_BMA255FIFOData_U8R[4];
+		uartbuf[8]=V_BMA255FIFOData_U8R[5];
+	if(connect_flag==1)
+	{ble_nus_data_send(&m_nus, uartbuf, &j, m_conn_handle);}
 //	i++;
 //	if ((err_code != NRF_ERROR_INVALID_STATE) &&
 //			(err_code != NRF_ERROR_RESOURCES) &&
@@ -251,7 +266,7 @@ static void nrf_qwr_error_handler(uint32_t nrf_error)
  * @param[in] p_evt       Nordic UART Service event.
  */
 /**@snippet [Handling the data received over BLE] */
-static void nus_data_handler(ble_nus_evt_t * p_evt)
+static void nus_data_handler(ble_nus_evt_t * p_evt)//蓝牙接收到数据
 {
 
     if (p_evt->type == BLE_NUS_EVT_RX_DATA)
@@ -430,6 +445,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             m_conn_handle = p_ble_evt->evt.gap_evt.conn_handle;
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
             APP_ERROR_CHECK(err_code);
+				    connect_flag=1;
 				    
 //				     application_timers_start();
             break;
@@ -438,6 +454,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             NRF_LOG_INFO("Disconnected");
             // LED indication will be changed when advertising starts.
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
+				connect_flag=0;
             break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
@@ -762,6 +779,29 @@ static void tx_power_set(void)
     ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, 8);
     APP_ERROR_CHECK(err_code);
 }
+
+nrfx_gpiote_evt_handler_t Button_handle(nrfx_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
+{
+	 printf("\r\nGPIOE.\r\n");
+}
+
+//GPIOTE 中断初始化
+void GPIOTE_init(void)
+{
+    ret_code_t err_code;    
+  
+    err_code=nrf_drv_gpiote_init();//GPIOTE初始化
+    APP_ERROR_CHECK(err_code);
+    
+    
+    //输入中断配置
+    nrf_drv_gpiote_in_config_t button_config=GPIOTE_CONFIG_IN_SENSE_LOTOHI(true);//上升沿触发
+    button_config.pull=NRF_GPIO_PIN_PULLUP;  //
+    err_code=nrf_drv_gpiote_in_init(BUTTON_0,&button_config,Button_handle);
+    APP_ERROR_CHECK(err_code);
+    nrf_drv_gpiote_in_event_enable(BUTTON_0,true);
+}
+
 /**@brief Application main function.
  */
 extern void SCL_(void);
@@ -769,7 +809,10 @@ int main(void)
 {
     bool erase_bonds;
     // Initialize.
-		
+//GPIOTE_init();
+	//GPIOTE中断
+	
+	//GPIOTE中断 end
     uart_init();
 //    log_init();
     timers_init();

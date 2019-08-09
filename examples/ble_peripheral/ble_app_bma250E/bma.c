@@ -891,6 +891,7 @@ void bma_init(void)
 {
 	unsigned char buf[4];
 	bma255_init(&bma255);
+	bma250_soft_reset();
   SCL_();
 	bma255_set_range(BMA255_RANGE_2G);	
 //	bma255_set_range(BMA255_RANGE_8G);
