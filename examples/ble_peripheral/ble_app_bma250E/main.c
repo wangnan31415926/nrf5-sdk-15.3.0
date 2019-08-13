@@ -93,7 +93,7 @@
 
 #define APP_BLE_OBSERVER_PRIO           3                                           /**< Application's BLE observer priority. You shouldn't need to modify this value. */
 
-#define APP_ADV_INTERVAL                64                                          /**< The advertising interval (in units of 0.625 ms. This value corresponds to 40 ms). */
+#define APP_ADV_INTERVAL                128                                          /**< The advertising interval (in units of 0.625 ms. This value corresponds to 40 ms). */
 
 #define APP_ADV_DURATION                0//18000                                       /**< The advertising duration (180 seconds) in units of 10 milliseconds. */
 
@@ -112,9 +112,11 @@
 
 
 #define BUTTON_0    15
+#define lowpower_timerover_max 1  //设置低功耗超时时间为5分钟，即5分钟无动作进入低功耗
+
 
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
-
+APP_TIMER_DEF(m_lowpower_timer_id);                              /*低功耗定时器*/
 
 BLE_NUS_DEF(m_nus, NRF_SDH_BLE_TOTAL_LINK_COUNT);                                   /**< BLE NUS service instance. */
 NRF_BLE_GATT_DEF(m_gatt);                                                           /**< GATT module instance. */
@@ -123,8 +125,12 @@ BLE_ADVERTISING_DEF(m_advertising);                                             
 
 unsigned char uartbuf[50];
 unsigned char length=0;
-unsigned char connect_flag=0;//蓝牙是否连接标志位
+unsigned char connect_flag=0;  //蓝牙是否连接标志位
+unsigned char Adv_flag=0;      //蓝牙是否广播标志位
+unsigned char bma250Lwp_flag=0;//传感器低功耗标志位
 
+unsigned short lowpower_timer_i=0;//累计无动作时间
+unsigned short num=0;              //包号
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 static uint16_t   m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 static ble_uuid_t m_adv_uuids[]          =                                          /**< Universally unique service identifier. */
@@ -132,13 +138,24 @@ static ble_uuid_t m_adv_uuids[]          =                                      
     {BLE_UUID_NUS_SERVICE, NUS_SERVICE_UUID_TYPE}
 };
 
+/**@brief Function for starting advertising.
+ */
+static void advertising_start(void)
+{
+    uint32_t err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
+    APP_ERROR_CHECK(err_code);
+}
 
 static void application_timers_start(void)
 {
     ret_code_t err_code;
 
-    // Start application timers.
-    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
+//    // Start application timers.
+//    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
+//    APP_ERROR_CHECK(err_code);
+	
+	    // Start application timers.
+    err_code = app_timer_start(m_lowpower_timer_id, APP_TIMER_TICKS(1000), NULL);
     APP_ERROR_CHECK(err_code);
 
 }
@@ -153,37 +170,98 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
 		length=0;
 }
 
+unsigned char con_stop_flag=0;//连接情况下定时器停止标志位
+//低功定时查询函数,每1s进入累计一次
+//到达超时限制，关闭广播，bma进入lowpower
+void lowpower_timeout_handler(void * p_context)
+	{
+		 UNUSED_PARAMETER(p_context);
+
+		 if(lowpower_timer_i<(lowpower_timerover_max*6))
+		 {lowpower_timer_i++;}
+		 else
+		 {
+			 
+			 if(Adv_flag!=0)//没有关闭广播
+			 {//低功耗处理
+				 if(connect_flag==0)
+         {
+				  sd_ble_gap_adv_stop(m_advertising.adv_handle);
+				  Adv_flag=0;//请标志位
+				 }//关闭蓝牙广播
+				 else
+				 {
+           app_timer_stop(m_test_timer_id); 
+					 con_stop_flag=1;
+				 }
+				 
+			 }
+			 
+			 if(bma250Lwp_flag!=0)//传感器未进低功耗
+			 {//低功耗处理
+				 bma_lowpower();
+			 }
+			 
+		 }
+		 
+		 //定时读取中断标志位
+		 if(BMA250_interrupt_status())
+		 {
+		    lowpower_timer_i=0;
+			 
+				if(Adv_flag==0)//判断是否广播
+				{    
+				advertising_start();
+				Adv_flag=1;//蓝牙广播标志位置1
+				}//进行广播
+				
+				if(con_stop_flag==1)
+				{
+					app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
+					con_stop_flag=0;
+					num=0;
+				}
+				
+
+				if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
+				{bma_init();}//bma250进入工作模式
+		 }
+			 
+		
+	}
+
 
 void test_timeout_handler(void * p_context)
 {
 	static unsigned char i=0;
-	static unsigned short j=9;
-	 UNUSED_PARAMETER(p_context);
-//	 app_uart_put(i++);
-	BMA253_Timer_Handler();
-//	for(i=0;i<6;i++)
-//	{
-//		app_uart_put(V_BMA255FIFOData_U8R[i]);
-//	}
-	  uartbuf[0]=0xaa;
-		uartbuf[1]=V_BMA255FIFOData_U8R[0];
-		uartbuf[2]=V_BMA255FIFOData_U8R[1];
-		uartbuf[3]=0xab;
-		uartbuf[4]=V_BMA255FIFOData_U8R[2];
-		uartbuf[5]=V_BMA255FIFOData_U8R[3];
-		uartbuf[6]=0xac;
-		uartbuf[7]=V_BMA255FIFOData_U8R[4];
-		uartbuf[8]=V_BMA255FIFOData_U8R[5];
-	if(connect_flag==1)
-	{ble_nus_data_send(&m_nus, uartbuf, &j, m_conn_handle);}
-//	i++;
-//	if ((err_code != NRF_ERROR_INVALID_STATE) &&
-//			(err_code != NRF_ERROR_RESOURCES) &&
-//			(err_code != NRF_ERROR_NOT_FOUND))
-//	{
-//			APP_ERROR_CHECK(err_code);
-//	}
+	static unsigned short j=0;
 
+	 UNUSED_PARAMETER(p_context);
+
+	 BMA253_Timer_Handler();
+
+		uartbuf[0+i*6]=V_BMA255FIFOData_U8R[1];
+		uartbuf[1+i*6]=V_BMA255FIFOData_U8R[0];
+
+		uartbuf[2+i*6]=V_BMA255FIFOData_U8R[3];
+		uartbuf[3+i*6]=V_BMA255FIFOData_U8R[2];
+
+		uartbuf[4+i*6]=V_BMA255FIFOData_U8R[5];
+		uartbuf[5+i*6]=V_BMA255FIFOData_U8R[4];
+	  
+	  j=j+6;
+	  i++;
+
+	if(connect_flag==1&&i==3)
+	{
+	  uartbuf[0+i*6]=(unsigned char)(num>>8);
+	  uartbuf[1+i*6]=(unsigned char)num;
+		j=j+2;
+	  ble_nus_data_send(&m_nus, uartbuf, &j, m_conn_handle);
+    j=0;
+    i=0;
+    num++;		
+	}
 }
 
 /**@brief Function for assert macro callback.
@@ -212,7 +290,12 @@ static void timers_init(void)
 	    err_code = app_timer_create(&m_test_timer_id,
                                 APP_TIMER_MODE_REPEATED,
                                 test_timeout_handler);
-    APP_ERROR_CHECK(err_code);
+      APP_ERROR_CHECK(err_code);
+	
+		  err_code = app_timer_create(&m_lowpower_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                lowpower_timeout_handler);
+      APP_ERROR_CHECK(err_code);
 }
 
 /**@brief Function for the GAP initialization.
@@ -446,7 +529,10 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
             APP_ERROR_CHECK(err_code);
 				    connect_flag=1;
-				    
+				        // Start application timers.连接成功开启发送数据定时器
+						err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
+						APP_ERROR_CHECK(err_code);
+				    num=0;
 //				     application_timers_start();
             break;
 
@@ -455,6 +541,8 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             // LED indication will be changed when advertising starts.
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
 				connect_flag=0;
+				
+				app_timer_stop(m_test_timer_id);
             break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
@@ -763,13 +851,7 @@ static void idle_state_handle(void)
 }
 
 
-/**@brief Function for starting advertising.
- */
-static void advertising_start(void)
-{
-    uint32_t err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
-    APP_ERROR_CHECK(err_code);
-}
+
 
 
 /**@brief Function for changing the tx power.
@@ -782,7 +864,17 @@ static void tx_power_set(void)
 
 nrfx_gpiote_evt_handler_t Button_handle(nrfx_gpiote_pin_t pin, nrf_gpiote_polarity_t action)
 {
-	 printf("\r\nGPIOE.\r\n");
+//	 printf("\r\nGPIOE.\r\n");
+	 lowpower_timer_i=0;//清累计值
+
+	 if(Adv_flag==0)//判断是否广播
+	 {    
+		 advertising_start();
+		 Adv_flag=1;//蓝牙广播标志位置1
+	 }//进行广播
+		
+	  if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
+	  {bma_init();}//bma250进入工作模式
 }
 
 //GPIOTE 中断初始化
@@ -809,11 +901,13 @@ int main(void)
 {
     bool erase_bonds;
     // Initialize.
-//GPIOTE_init();
-	//GPIOTE中断
+   
+	 //GPIOTE中断
+//	 GPIOTE_init();
+	 //GPIOTE中断 end
 	
-	//GPIOTE中断 end
-    uart_init();
+	
+//    uart_init();
 //    log_init();
     timers_init();
 //    buttons_leds_init(&erase_bonds);
@@ -827,14 +921,15 @@ int main(void)
     conn_params_init();
 
     // Start execution.
-    printf("\r\nUART started.\r\n");
-    NRF_LOG_INFO("Debug logging for UART over RTT started.");
+//    printf("\r\nUART started.\r\n");
+//    NRF_LOG_INFO("Debug logging for UART over RTT started.");
 	  tx_power_set();
     advertising_start();
+		Adv_flag=1;//蓝牙广播标志位置1
 //	
 
-bma_init();
-application_timers_start();
+    bma_init();
+    application_timers_start();
     // Enter main loop.
     for (;;)
     {

@@ -235,8 +235,8 @@
 #define BMA255_STATUS_FIFO_REG                  0x0E       //ADDED
 #define BMA255_RANGE_SEL_REG                    0x0F
 #define BMA255_BW_SEL_REG                       0x10
-#define BMA255_MODE_CTRL_REG                    0x11
-#define BMA255_LOW_NOISE_CTRL_REG               0x12
+#define BMA255_MODE_CTRL_REG                    0x11       //使能低功耗模式
+#define BMA255_LOW_NOISE_CTRL_REG               0x12       //设置具体模式
 #define BMA255_DATA_CTRL_REG                    0x13
 #define BMA255_RESET_REG                        0x14
 #define BMA255_INT_ENABLE1_REG                  0x16       //设置中断使能
@@ -2351,6 +2351,9 @@ extern unsigned char V_BMA255FIFOData_U8R[6];
 
 
 void bma_init(void);
+void bma_lowpower(void);
 void BMA253_Timer_Handler(void);
+unsigned char BMA250_interrupt_status(void);
+void BMA250_clear_interrupt(void);
 #endif
 

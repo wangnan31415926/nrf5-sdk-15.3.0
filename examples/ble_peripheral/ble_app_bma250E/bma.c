@@ -825,6 +825,23 @@ void BMA253_Timer_Handler(void)
 	}
 
 }
+
+//读取中断状态，返回值代表当前状态
+unsigned char BMA250_interrupt_status(void)
+{
+	unsigned char i[1];
+	BMA250E_ReadReg(BMA255_STATUS1_REG,i);	//read
+	i[0]=i[0]&0x04;
+	i[0]=i[0]>>2;
+	return i[0];
+
+}
+
+void BMA250_clear_interrupt(void)
+{
+	BMA250E_WriteReg(BMA255_INT_CTRL_REG, 0x1f);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 BMA255_RETURN_FUNCTION_TYPE bma255_get_fifo_mode (unsigned char *fifo_mode)
    {
@@ -886,23 +903,59 @@ unsigned int BMA255_FIFODAQ(void)
    bma255_burst_read(0x3F, V_BMA255FIFOData_U8R, v_noofbytestoread_u8r);
 }
 
+extern unsigned char bma250Lwp_flag;
 
 void bma_init(void)
 {
 	unsigned char buf[4];
 	bma255_init(&bma255);
-	bma250_soft_reset();
   SCL_();
-	bma255_set_range(BMA255_RANGE_2G);	
+	bma250_soft_reset();
+	
+	bma255_set_range(BMA255_RANGE_2G);	//设置加速度范围
 //	bma255_set_range(BMA255_RANGE_8G);
 //	bma255_set_range(BMA255_RANGE_4G);
 //	bma255_set_range(BMA255_RANGE_2G);
+	
+	//单击中断设置
+//	BMA250E_WriteReg(BMA255_INT_ENABLE1_REG, 0x20);//设置中断使能
+//	BMA250E_WriteReg(BMA255_INT1_PAD_SEL_REG, 0x20);//设置中断引脚init1
+//	BMA250E_WriteReg(BMA255_TAP_THRES_REG,0xc1); //设置触发阈值
+	//单击中断设置end
+	
+	//任意运动检测
+	BMA250E_WriteReg(BMA255_INT_CTRL_REG, 0x03);//设置中断为锁死模式
+	BMA250E_WriteReg(BMA255_SLOPE_THRES_REG, 0x14);//阈值寄存器设置
+	BMA250E_WriteReg(BMA255_SLOPE_DURN_REG, 0x00);//当斜率大于阈值，超过slope_dur+1的时间，产生中断
+	BMA250E_WriteReg(BMA255_INT1_PAD_SEL_REG, 0x04);//设置中断引脚init1
+	BMA250E_WriteReg(BMA255_INT_ENABLE1_REG,0x07); //中断使能设置
+	//任意运动检测end
+	
+	
 //	bma255_set_bandwidth(BMA255_BW_15_63HZ);
 //	bma255_set_Int_Enable(BMA255_DATA_EN,1);
 //	bma255_set_mode(BMA255_MODE_LOWPOWER1);
+//	BMA250E_WriteReg(BMA255_MODE_CTRL_REG, 0x56);//设置low power使能
+//	BMA250E_WriteReg(BMA255_LOW_NOISE_CTRL_REG, 0x00);//设置lwp1使能
+	bma250Lwp_flag=1;//bma工作模式标志置1
+	
 //	BMA250E_WriteReg(BMA255_FIFO_MODE_REG, 0x80);
 //	bma255_set_sleep_dur(BMA255_SLEEP_DUR_25MS);
 //	BMA250E_ReadReg_DMWZ(0x00,buf,1);
+}
+
+
+
+void bma_lowpower(void)
+{
+	unsigned char buf[4];
+
+	BMA250E_WriteReg(BMA255_MODE_CTRL_REG, 0x56);//设置low power使能
+	BMA250E_WriteReg(BMA255_LOW_NOISE_CTRL_REG, 0x00);//设置lwp1使能
+//	BMA250E_WriteReg(BMA255_TAP_PARAM_REG, 0x01);//设置lwp1使能
+//		BMA250E_WriteReg(BMA255_TAP_THRES_REG,0x01);
+	bma250Lwp_flag=0;//bma工作模式标志清零
+
 }
 
 
