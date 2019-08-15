@@ -834,7 +834,7 @@ int main(void)
     timers_init();
 	   nrf_gpio_cfg_output(LED);
 //    buttons_leds_init(&erase_bonds);
-		APP_SCHED_INIT(50,30);  //wn
+//		APP_SCHED_INIT(50,30);  //wn
     power_management_init();
     ble_stack_init();
     gap_params_init();
@@ -850,11 +850,11 @@ int main(void)
     advertising_start();
 //	
 
-	  application_timers_start();
+//	  application_timers_start();
     // Enter main loop.
     for (;;)
     {
-			  app_sched_execute();
+//			  app_sched_execute();
         idle_state_handle();
     }
 }
