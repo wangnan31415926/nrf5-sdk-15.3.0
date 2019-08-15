@@ -858,7 +858,7 @@ static void idle_state_handle(void)
  */
 static void tx_power_set(void)
 {
-    ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, 8);
+    ret_code_t err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle,8);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -911,7 +911,7 @@ int main(void)
 //    log_init();
     timers_init();
 //    buttons_leds_init(&erase_bonds);
-		APP_SCHED_INIT(50,30);  //wn
+		APP_SCHED_INIT(20,10);  //wn
     power_management_init();
     ble_stack_init();
     gap_params_init();

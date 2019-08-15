@@ -49,11 +49,12 @@
 #include "nrf_gpio.h"
 #include "nrf_delay.h"
 #include "IIC_DMWZ.h"
+#include "../../../components/drivers_nrf/twi_master/deprecated/twi_master.h"
 
 #define SDA 12
 #define SCL 13
-#define DELAY 10
-#define DELAY_1_2 5
+#define DELAY 1
+#define DELAY_1_2 1
 
 unsigned char send_byte;
 
@@ -66,7 +67,7 @@ void SCL_(void)
 	while(i)
 	{
 		nrf_gpio_pin_toggle(SCL);
-		nrf_delay_us(DELAY);
+		//nrf_delay_us(DELAY);
 		i--;
 		
 	}
@@ -79,14 +80,14 @@ void i2c_start(void)
     nrf_gpio_cfg_output(SDA);
 	  nrf_gpio_pin_set(SDA);//gpio_direction_output(SDA, 1); 
     nrf_gpio_pin_set(SCL);//gpio_direction_output(SCL, 1);	
-    nrf_delay_us(DELAY);
+    //nrf_delay_us(DELAY);
   
       
     nrf_gpio_pin_clear(SDA);//gpio_set_value(SDA, 0);  
-    nrf_delay_us(DELAY);      
+    //nrf_delay_us(DELAY);      
             
     nrf_gpio_pin_clear(SCL);//gpio_set_value(SCL, 0);  
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
 	
 	
 }  
@@ -94,12 +95,12 @@ void i2c_stop(void)
 {   
     nrf_gpio_pin_clear(SCL);//gpio_set_value(SCL, 0);  
     nrf_gpio_pin_clear(SDA);//gpio_set_value(SDA, 0);  
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
       
     nrf_gpio_pin_set(SCL);//gpio_set_value(SCL, 1);  
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
     nrf_gpio_pin_set(SDA);//gpio_set_value(SDA, 1);  
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
 }  
 void i2c_send_ack(unsigned char ack)  
 {  
@@ -108,13 +109,13 @@ void i2c_send_ack(unsigned char ack)
 		{nrf_gpio_pin_set(SDA);}			
     else  
 		{nrf_gpio_pin_clear(SDA);}			
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
       
     nrf_gpio_pin_set(SCL);  
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
       
     nrf_gpio_pin_clear(SCL);  
-    nrf_delay_us(DELAY);    
+    //nrf_delay_us(DELAY);    
 }  
 unsigned char i2c_receive_ack(void)  
 {  
@@ -122,7 +123,7 @@ unsigned char i2c_receive_ack(void)
  
     nrf_gpio_cfg_input(SDA, NRF_GPIO_PIN_NOPULL); //set SDA input   
     nrf_gpio_pin_set(SCL);                        //set SCL output 1
-    nrf_delay_us(DELAY);  
+    //nrf_delay_us(DELAY);  
       
     if(nrf_gpio_pin_read(SDA)) {                  //read SDA for ack
         rc = 1;  
@@ -147,18 +148,18 @@ unsigned char i2c_send_byte(void)
         else {                                    
             nrf_gpio_pin_clear(SDA); //set SDA output 0  
         }      
-        nrf_delay_us(DELAY_1_2);  
+        //nrf_delay_us(DELAY_1_2);  
                                     
         nrf_gpio_pin_set(SCL);       //set SCL output 1                 
-        nrf_delay_us(DELAY);  
+        //nrf_delay_us(DELAY);  
         nrf_gpio_pin_clear(SCL);     //set SCL output 0   
-        nrf_delay_us(DELAY_1_2);  
+        //nrf_delay_us(DELAY_1_2);  
                     
         out_mask >>= 1;        
         count--;         
     }  
 		nrf_gpio_pin_set(SDA); 
-    nrf_delay_us(DELAY_1_2);
+    //nrf_delay_us(DELAY_1_2);
      
     rc = i2c_receive_ack();  
     return rc;  
@@ -173,13 +174,13 @@ void i2c_read_byte(unsigned char *buffer, unsigned char ack)
     nrf_gpio_cfg_input(SDA, NRF_GPIO_PIN_NOPULL);//SET SDA input    
     while(count > 0) {  
         nrf_gpio_pin_set(SCL);             //SCL 1
-        nrf_delay_us(DELAY);  
+        //nrf_delay_us(DELAY);  
         temp = nrf_gpio_pin_read(SDA);     //read SDA   
         data <<= 1;  
         if (temp)  
             data |= 0x01;  
         nrf_gpio_pin_clear(SCL);           //SCL 0
-        nrf_delay_us(DELAY);  
+        //nrf_delay_us(DELAY);  
         count--;  
     }  
     i2c_send_ack(ack);//0 = ACK    1 = NACK   
@@ -223,7 +224,7 @@ unsigned char i2c_read(unsigned char device_id, unsigned char reg_address, unsig
     i2c_start(); 
      send_byte=(device_id << 1) | 0x00;	
      i2c_send_byte();//rc_n |= i2c_send_byte( (device_id << 1) | 0x01 );
-     nrf_delay_us(DELAY); 
+     //nrf_delay_us(DELAY); 
 
 	
 	  send_byte=reg_address;
@@ -232,8 +233,6 @@ unsigned char i2c_read(unsigned char device_id, unsigned char reg_address, unsig
     i2c_start();//restart I2C 
      send_byte=(device_id << 1) | 0x01;	
      i2c_send_byte();//rc_n |= i2c_send_byte( (device_id << 1) | 0x01 );
-	
-//    rc_n |= i2c_send_byte( (device_id << 1) | 0x01 );  
       
     for(i=0;i<len;i++) {  
         i2c_read_byte(buffer++, !(len-i-1));//when read one byte need to ack ,but when read the last data need an NACK  
@@ -244,5 +243,14 @@ unsigned char i2c_read(unsigned char device_id, unsigned char reg_address, unsig
 //        printk("ERROR!   ssd2531_i2c_read failed/n");  
         return rc_n;  
     }  
-    return rc_n;    
+    return rc_n;
+
+// bool i2c_trans_state  = false ;
+//	    i2c_trans_state = twi_master_transfer(device_id,&reg_address,1,TWI_ISSUE_STOP);
+//	    while(i2c_trans_state == false);
+//     	i2c_trans_state =twi_master_transfer(device_id | TWI_READ_BIT,buffer,len,TWI_ISSUE_STOP);
+//			while(i2c_trans_state == false); 
+// 
+//		  return  i2c_trans_state;
 }
+

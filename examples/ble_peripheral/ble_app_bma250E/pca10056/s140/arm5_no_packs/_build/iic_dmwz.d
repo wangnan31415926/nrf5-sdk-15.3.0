@@ -47,3 +47,4 @@
 .\_build\iic_dmwz.o: ..\..\..\..\..\..\modules\nrfx\drivers/nrfx_errors.h
 .\_build\iic_dmwz.o: ..\..\..\..\..\..\components\libraries\delay\nrf_delay.h
 .\_build\iic_dmwz.o: ..\..\..\IIC_DMWZ.h
+.\_build\iic_dmwz.o: ..\..\..\../../../components/drivers_nrf/twi_master/deprecated/twi_master.h
