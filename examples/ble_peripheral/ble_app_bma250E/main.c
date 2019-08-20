@@ -128,7 +128,8 @@ unsigned char length=0;
 unsigned char connect_flag=0;  //蓝牙是否连接标志位
 unsigned char Adv_flag=0;      //蓝牙是否广播标志位
 unsigned char bma250Lwp_flag=0;//传感器低功耗标志位
-
+unsigned char bma250_i=0;
+unsigned short bma250_j=0;
 unsigned short lowpower_timer_i=0;//累计无动作时间
 unsigned short num=0;              //包号
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
@@ -177,7 +178,7 @@ void lowpower_timeout_handler(void * p_context)
 	{
 		 UNUSED_PARAMETER(p_context);
 
-		 if(lowpower_timer_i<(lowpower_timerover_max*6))
+		 if(lowpower_timer_i<(lowpower_timerover_max*10))
 		 {lowpower_timer_i++;}
 		 else
 		 {
@@ -193,6 +194,8 @@ void lowpower_timeout_handler(void * p_context)
 				 {
            app_timer_stop(m_test_timer_id); 
 					 con_stop_flag=1;
+						bma250_i=0;
+						bma250_j=0;
 				 }
 				 
 			 }
@@ -239,27 +242,30 @@ void test_timeout_handler(void * p_context)
 	 UNUSED_PARAMETER(p_context);
 
 	 BMA253_Timer_Handler();
+    
+		uartbuf[0+bma250_i*6]=V_BMA255FIFOData_U8R[1];
+		uartbuf[1+bma250_i*6]=V_BMA255FIFOData_U8R[0];
 
-		uartbuf[0+i*6]=V_BMA255FIFOData_U8R[1];
-		uartbuf[1+i*6]=V_BMA255FIFOData_U8R[0];
+		uartbuf[2+bma250_i*6]=V_BMA255FIFOData_U8R[3];
+		uartbuf[3+bma250_i*6]=V_BMA255FIFOData_U8R[2];
 
-		uartbuf[2+i*6]=V_BMA255FIFOData_U8R[3];
-		uartbuf[3+i*6]=V_BMA255FIFOData_U8R[2];
-
-		uartbuf[4+i*6]=V_BMA255FIFOData_U8R[5];
-		uartbuf[5+i*6]=V_BMA255FIFOData_U8R[4];
+		uartbuf[4+bma250_i*6]=V_BMA255FIFOData_U8R[5];
+		uartbuf[5+bma250_i*6]=V_BMA255FIFOData_U8R[4];
 	  
-	  j=j+6;
-	  i++;
+	  if(bma250_j<40&&bma250_i<45)
+	  {
+			bma250_j=bma250_j+6;
+	    bma250_i++;
+		}
 
-	if(connect_flag==1&&i==3)
+	if(connect_flag==1&&bma250_i>=3)
 	{
-	  uartbuf[0+i*6]=(unsigned char)(num>>8);
-	  uartbuf[1+i*6]=(unsigned char)num;
-		j=j+2;
-	  ble_nus_data_send(&m_nus, uartbuf, &j, m_conn_handle);
-    j=0;
-    i=0;
+	  uartbuf[0+bma250_i*6]=(unsigned char)(num>>8);
+	  uartbuf[1+bma250_i*6]=(unsigned char)num;
+		bma250_j=bma250_j+2;
+	  ble_nus_data_send(&m_nus, uartbuf, &bma250_j, m_conn_handle);
+    bma250_j=0;
+    bma250_i=0;
     num++;		
 	}
 }
@@ -543,6 +549,8 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 				connect_flag=0;
 				
 				app_timer_stop(m_test_timer_id);
+				bma250_i=0;
+        bma250_j=0;
             break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
@@ -911,7 +919,7 @@ int main(void)
 //    log_init();
     timers_init();
 //    buttons_leds_init(&erase_bonds);
-		APP_SCHED_INIT(20,10);  //wn
+		APP_SCHED_INIT(50,30);  //wn
     power_management_init();
     ble_stack_init();
     gap_params_init();

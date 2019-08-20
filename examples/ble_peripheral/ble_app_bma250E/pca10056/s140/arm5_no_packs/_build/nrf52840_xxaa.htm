@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Thu Aug 15 15:15:42 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Tue Aug 20 15:15:36 2019
 <BR><P>
 <H3>Maximum Stack Usage =        544 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -339,8 +339,8 @@ Global Symbols
 <P><STRONG><a name="[54]"></a>__aeabi_uldivmod</STRONG> (Thumb, 98 bytes, Stack size 40 bytes, uldiv.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = __aeabi_uldivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
-<LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<BR>[Calls]<UL><LI><a href="#[56]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
+<LI><a href="#[55]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 </UL>
@@ -612,9 +612,9 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lowpower_timeout_handler
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
-<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_negotiation
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_negotiation
 </UL>
 
 <P><STRONG><a name="[88]"></a>app_timer_stop</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, app_timer.o(i.app_timer_stop))
@@ -624,19 +624,19 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lowpower_timeout_handler
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 <LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
 <P><STRONG><a name="[61]"></a>app_uart_put</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, app_uart_fifo.o(i.app_uart_put))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = app_uart_put &rArr; nrf_drv_uart_tx &rArr; nrfx_uart_tx &rArr; tx_byte &rArr; nrf_uart_event_clear
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uarte_tx_in_progress
-<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx_in_progress
-<LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_uart_tx
+<BR>[Calls]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_uart_tx
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_fifo_put
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_fifo_get
+<LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uarte_tx_in_progress
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx_in_progress
 </UL>
 <BR>[Called By]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Bluetooth_ReciveANDSend
 <LI><a href="#[3d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nus_data_handler
@@ -789,9 +789,9 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> main.o(sdh_ble_observers2)
 </UL>
 <P><STRONG><a name="[a6]"></a>ble_srv_is_notification_enabled</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, ble_srv_common.o(i.ble_srv_is_notification_enabled))
-<BR><BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
-<LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_write
+<BR><BR>[Called By]<UL><LI><a href="#[b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_write
 <LI><a href="#[b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_connect
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
 <P><STRONG><a name="[b3]"></a>bma250_soft_reset</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, bma.o(i.bma250_soft_reset))
@@ -1043,7 +1043,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BMA250E_WriteReg
 </UL>
 
-<P><STRONG><a name="[3b]"></a>lowpower_timeout_handler</STRONG> (Thumb, 122 bytes, Stack size 24 bytes, main.o(i.lowpower_timeout_handler))
+<P><STRONG><a name="[3b]"></a>lowpower_timeout_handler</STRONG> (Thumb, 126 bytes, Stack size 24 bytes, main.o(i.lowpower_timeout_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = lowpower_timeout_handler &rArr; bma_init &rArr; bma255_set_range &rArr; BMA250E_ReadReg &rArr; i2c_read &rArr; i2c_read_byte &rArr; i2c_send_ack &rArr; nrf_gpio_cfg_output &rArr; nrf_gpio_cfg
 </UL>
 <BR>[Calls]<UL><LI><a href="#[b6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bma_lowpower
@@ -1272,10 +1272,10 @@ Global Symbols
 <P><STRONG><a name="[ee]"></a>nrfx_uart_tx</STRONG> (Thumb, 160 bytes, Stack size 32 bytes, nrfx_uart.o(i.nrfx_uart_tx))
 <BR><BR>[Stack]<UL><LI>Max Depth = 56<LI>Call Chain = nrfx_uart_tx &rArr; tx_byte &rArr; nrf_uart_event_clear
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx_in_progress
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_byte
+<BR>[Calls]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_byte
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_uart_event_clear
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_uart_event_check
+<LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx_in_progress
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_uart_tx
 </UL>
@@ -1301,7 +1301,7 @@ Global Symbols
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uarte_tx
 </UL>
 
-<P><STRONG><a name="[3a]"></a>test_timeout_handler</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, main.o(i.test_timeout_handler))
+<P><STRONG><a name="[3a]"></a>test_timeout_handler</STRONG> (Thumb, 132 bytes, Stack size 16 bytes, main.o(i.test_timeout_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 160<LI>Call Chain = test_timeout_handler &rArr; BMA253_Timer_Handler &rArr; BMA250E_ReadReg &rArr; i2c_read &rArr; i2c_read_byte &rArr; i2c_send_ack &rArr; nrf_gpio_cfg_output &rArr; nrf_gpio_cfg
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_nus_data_send
@@ -1322,7 +1322,7 @@ Local Symbols
 <LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;lowpower_timeout_handler
 </UL>
 
-<P><STRONG><a name="[4c]"></a>ble_evt_handler</STRONG> (Thumb, 182 bytes, Stack size 24 bytes, main.o(i.ble_evt_handler))
+<P><STRONG><a name="[4c]"></a>ble_evt_handler</STRONG> (Thumb, 184 bytes, Stack size 24 bytes, main.o(i.ble_evt_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 116<LI>Call Chain = ble_evt_handler &rArr; bsp_indication_set &rArr; bsp_led_indication &rArr; app_timer_start &rArr; app_util_critical_region_enter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_ble_qwr_conn_handle_assign
@@ -1685,8 +1685,8 @@ Local Symbols
 <P><STRONG><a name="[b1]"></a>on_connect</STRONG> (Thumb, 106 bytes, Stack size 64 bytes, ble_nus.o(i.on_connect))
 <BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = on_connect &rArr; blcm_link_ctx_get &rArr; ble_conn_state_conn_idx
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;blcm_link_ctx_get
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;blcm_link_ctx_get
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_nus_on_ble_evt
@@ -1695,8 +1695,8 @@ Local Symbols
 <P><STRONG><a name="[b2]"></a>on_write</STRONG> (Thumb, 132 bytes, Stack size 48 bytes, ble_nus.o(i.on_write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = on_write &rArr; blcm_link_ctx_get &rArr; ble_conn_state_conn_idx
 </UL>
-<BR>[Calls]<UL><LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
-<LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;blcm_link_ctx_get
+<BR>[Calls]<UL><LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;blcm_link_ctx_get
+<LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_nus_on_ble_evt
@@ -1794,8 +1794,8 @@ Local Symbols
 <P><STRONG><a name="[f7]"></a>nrf_uart_event_clear</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, nrfx_uart.o(i.nrf_uart_event_clear))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = nrf_uart_event_clear
 </UL>
-<BR>[Called By]<UL><LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_byte
+<BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;tx_byte
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrfx_uart_tx
 </UL>
 
 <P><STRONG><a name="[f8]"></a>tx_byte</STRONG> (Thumb, 32 bytes, Stack size 16 bytes, nrfx_uart.o(i.tx_byte))
