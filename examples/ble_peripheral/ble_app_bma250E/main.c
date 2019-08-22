@@ -57,6 +57,8 @@
 #include "ble_advdata.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
+#include "nrf_drv_wdt.h"
+#include "nrfx_wdt.h"
 #include "nrf_sdh.h"
 #include "nrf_sdh_soc.h"
 #include "nrf_sdh_ble.h"
@@ -85,10 +87,12 @@
 #include "bma.h"
 #include "nrf_delay.h"
 #include "nrf_drv_gpiote.h"
+//#include <../../../../../modules/nrfx/drivers/include/nrfx_wdt.h>
+
 
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 
-#define DEVICE_NAME                     "YAXNordic_UART"                               /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "YAXNordic_UARTwn"                               /**< Name of device. Will be included in the advertising data. */
 #define NUS_SERVICE_UUID_TYPE           BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the Nordic UART Service (vendor specific). */
 
 #define APP_BLE_OBSERVER_PRIO           3                                           /**< Application's BLE observer priority. You shouldn't need to modify this value. */
@@ -178,7 +182,7 @@ void lowpower_timeout_handler(void * p_context)
 	{
 		 UNUSED_PARAMETER(p_context);
 
-		 if(lowpower_timer_i<(lowpower_timerover_max*10))
+		 if(lowpower_timer_i<(lowpower_timerover_max*3))
 		 {lowpower_timer_i++;}
 		 else
 		 {
@@ -190,15 +194,17 @@ void lowpower_timeout_handler(void * p_context)
 				  sd_ble_gap_adv_stop(m_advertising.adv_handle);
 				  Adv_flag=0;//请标志位
 				 }//关闭蓝牙广播
-				 else
-				 {
-           app_timer_stop(m_test_timer_id); 
-					 con_stop_flag=1;
+			 }
+
+				if(con_stop_flag!=1)
+					{
+						app_timer_stop(m_test_timer_id); 
+						con_stop_flag=1;
 						bma250_i=0;
 						bma250_j=0;
-				 }
+					}
 				 
-			 }
+			 
 			 
 			 if(bma250Lwp_flag!=0)//传感器未进低功耗
 			 {//低功耗处理
@@ -218,16 +224,15 @@ void lowpower_timeout_handler(void * p_context)
 				Adv_flag=1;//蓝牙广播标志位置1
 				}//进行广播
 				
+  			if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
+				{bma_init();}//bma250进入工作模式
+				
 				if(con_stop_flag==1)
 				{
 					app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
 					con_stop_flag=0;
 					num=0;
 				}
-				
-
-				if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
-				{bma_init();}//bma250进入工作模式
 		 }
 			 
 		
@@ -535,22 +540,18 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
             APP_ERROR_CHECK(err_code);
 				    connect_flag=1;
-				        // Start application timers.连接成功开启发送数据定时器
-						err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
+
 						APP_ERROR_CHECK(err_code);
-				    num=0;
-//				     application_timers_start();
+
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected");
             // LED indication will be changed when advertising starts.
             m_conn_handle = BLE_CONN_HANDLE_INVALID;
-				connect_flag=0;
-				
-				app_timer_stop(m_test_timer_id);
-				bma250_i=0;
-        bma250_j=0;
+						connect_flag=0;
+						bma250_i=0;
+						bma250_j=0;
             break;
 
         case BLE_GAP_EVT_PHY_UPDATE_REQUEST:
@@ -902,6 +903,31 @@ void GPIOTE_init(void)
     nrf_drv_gpiote_in_event_enable(BUTTON_0,true);
 }
 
+
+//******************************************wdt******************************//
+nrf_drv_wdt_channel_id m_channel_id;
+/**
+ * @brief WDT events handler.
+ */
+void wdt_event_handler(void)
+{
+    
+ 
+    //NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
+}
+
+void WDT_Init(void)
+{
+	uint32_t err_code = NRF_SUCCESS;
+	    //Configure WDT.
+    nrf_drv_wdt_config_t config = NRF_DRV_WDT_DEAFULT_CONFIG;
+    err_code = nrf_drv_wdt_init(&config, wdt_event_handler);
+    APP_ERROR_CHECK(err_code);
+    err_code = nrf_drv_wdt_channel_alloc(&m_channel_id);
+    APP_ERROR_CHECK(err_code);
+    nrf_drv_wdt_enable();
+}
+//******************************************wdt end******************************//
 /**@brief Application main function.
  */
 extern void SCL_(void);
