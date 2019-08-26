@@ -193,7 +193,7 @@ unsigned char con_stop_flag=1;//连接情况下定时器停止标志位 1-定时器停止 0-定时器
 void lowpower_timeout_handler(void * p_context)
 	{
 		 UNUSED_PARAMETER(p_context);
-
+    nrf_drv_wdt_feed();
 		if(dfu_flag==1)
 		{
 			EnterDFU();
@@ -919,7 +919,8 @@ nrf_drv_wdt_channel_id m_channel_id;
 void wdt_event_handler(void)
 {
     
- 
+// printf("wdt");
+	NVIC_SystemReset();
     //NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
 }
 
@@ -962,16 +963,15 @@ int main(void)
     conn_params_init();
 
     // Start execution.
-//    printf("\r\nUART started.\r\n");
-//    NRF_LOG_INFO("Debug logging for UART over RTT started.");
-	  tx_power_set();
-    advertising_start();
-		Adv_flag=1;//蓝牙广播标志位置1
-//	
+    //    printf("\r\nUART started.\r\n");
 
-    bma_init();
-    application_timers_start();
-		dfu_flag=0;
+	  tx_power_set();            //设置广播功率
+    advertising_start();       //开启蓝牙广播
+		Adv_flag=1;                //蓝牙广播标志位置1
+    bma_init();                //bma底层初始化
+    application_timers_start();//开启定时器
+		dfu_flag=0;                //dfu标志清零
+		WDT_Init();                //开启看门狗
     // Enter main loop.
     for (;;)
     {
