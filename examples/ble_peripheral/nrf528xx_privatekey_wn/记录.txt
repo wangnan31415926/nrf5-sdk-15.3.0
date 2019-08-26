@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\nrf528xx_privatekey>nrfutil pkg generate --hw-ver
+sion 52 --application-version 1 --application nrf52840_xxaa.hex --sd-req 0xb6 --
+key-file private.key dfu_test.zip
+
+1.此文件夹是生成app升级包的
+2.打开命令行端口，输入上面的命令，即可生成升级包。
+
+3.s140_boot.mot是蓝牙协议栈与boot的合并文件。
+4.只做生产bin时，先下载s140_boot.mot然后通过手机升级，将app下载进去。然后在读出所有文件，制作成生产bin文件。

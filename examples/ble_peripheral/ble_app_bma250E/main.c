@@ -136,6 +136,7 @@ unsigned char bma250_i=0;
 unsigned short bma250_j=0;
 unsigned short lowpower_timer_i=0;//累计无动作时间
 unsigned short num=0;              //包号
+unsigned char dfu_flag=0;//进入升级模式标志位 1-进入升级模式
 static uint16_t   m_conn_handle          = BLE_CONN_HANDLE_INVALID;                 /**< Handle of the current connection. */
 static uint16_t   m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - 3;            /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 static ble_uuid_t m_adv_uuids[]          =                                          /**< Universally unique service identifier. */
@@ -166,6 +167,17 @@ static void application_timers_start(void)
 }
 
 
+void EnterDFU(void)
+{
+    #define BOOTLOADER_DFU_GPREGRET_MASK            (0xB0)      
+    #define BOOTLOADER_DFU_START_BIT_MASK           (0x01)  
+    #define BOOTLOADER_DFU_START    (BOOTLOADER_DFU_GPREGRET_MASK | BOOTLOADER_DFU_START_BIT_MASK)      
+    sd_power_gpregret_clr(0,0xffffffff);
+    sd_power_gpregret_set(0, BOOTLOADER_DFU_START);
+    nrf_pwr_mgmt_shutdown(NRF_PWR_MGMT_SHUTDOWN_GOTO_DFU);
+}
+
+
 void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
 {
 	    for (uint32_t i = 0; i < length; i++)
@@ -175,15 +187,23 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
 		length=0;
 }
 
-unsigned char con_stop_flag=0;//连接情况下定时器停止标志位
+unsigned char con_stop_flag=1;//连接情况下定时器停止标志位 1-定时器停止 0-定时器开启
 //低功定时查询函数,每1s进入累计一次
 //到达超时限制，关闭广播，bma进入lowpower
 void lowpower_timeout_handler(void * p_context)
 	{
 		 UNUSED_PARAMETER(p_context);
 
-		 if(lowpower_timer_i<(lowpower_timerover_max*3))
-		 {lowpower_timer_i++;}
+		if(dfu_flag==1)
+		{
+			EnterDFU();
+			NVIC_SystemReset();
+		}
+		
+		 if(lowpower_timer_i<(lowpower_timerover_max*10))
+		 {
+		 lowpower_timer_i++;
+		 }
 		 else
 		 {
 			 
@@ -366,31 +386,18 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)//蓝牙接收到数据
     if (p_evt->type == BLE_NUS_EVT_RX_DATA)
     {
         uint32_t err_code;
+			  unsigned char ack[]="success";
+			  unsigned short len=sizeof(ack);
 
-        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
-        NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-//
-			
 				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
-	length=p_evt->params.rx_data.length;
-	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
-//        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
-//        {
-//            do
-//            {
-//                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
-//                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
-//                {
-//                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
-//                    APP_ERROR_CHECK(err_code);
-//                }
-//            } while (err_code == NRF_ERROR_BUSY);
-//        }
-				//
-        if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
-        {
-            while (app_uart_put('\n') == NRF_ERROR_BUSY);
-        }
+	      length=p_evt->params.rx_data.length;
+			  
+        //	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); //串口发送
+			  if(1){
+			  ble_nus_data_send(&m_nus, ack, &len, m_conn_handle);
+				dfu_flag=1;//进入dfu
+				}
+
     }
 
 }
@@ -964,6 +971,7 @@ int main(void)
 
     bma_init();
     application_timers_start();
+		dfu_flag=0;
     // Enter main loop.
     for (;;)
     {
