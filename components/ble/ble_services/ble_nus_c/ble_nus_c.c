@@ -52,6 +52,9 @@
 #include "nrf_log.h"
 NRF_LOG_MODULE_REGISTER();
 
+
+
+
 void ble_nus_c_on_db_disc_evt(ble_nus_c_t * p_ble_nus_c, ble_db_discovery_evt_t * p_evt)
 {
     ble_nus_c_evt_t nus_c_evt;
@@ -63,6 +66,8 @@ void ble_nus_c_on_db_disc_evt(ble_nus_c_t * p_ble_nus_c, ble_db_discovery_evt_t 
     if (    (p_evt->evt_type == BLE_DB_DISCOVERY_COMPLETE)
         &&  (p_evt->params.discovered_db.srv_uuid.uuid == BLE_UUID_NUS_SERVICE)
         &&  (p_evt->params.discovered_db.srv_uuid.type == p_ble_nus_c->uuid_type))
+
+
     {
         for (uint32_t i = 0; i < p_evt->params.discovered_db.char_count; i++)
         {

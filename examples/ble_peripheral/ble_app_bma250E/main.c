@@ -92,7 +92,7 @@
 
 #define APP_BLE_CONN_CFG_TAG            1                                           /**< A tag identifying the SoftDevice BLE configuration. */
 
-#define DEVICE_NAME                     "YAXNordic_UARTwn"                               /**< Name of device. Will be included in the advertising data. */
+#define DEVICE_NAME                     "YAXLdzfY"                               /**< Name of device. Will be included in the advertising data. */
 #define NUS_SERVICE_UUID_TYPE           BLE_UUID_TYPE_VENDOR_BEGIN                  /**< UUID type for the Nordic UART Service (vendor specific). */
 
 #define APP_BLE_OBSERVER_PRIO           3                                           /**< Application's BLE observer priority. You shouldn't need to modify this value. */
@@ -200,7 +200,7 @@ void lowpower_timeout_handler(void * p_context)
 			NVIC_SystemReset();
 		}
 		
-		 if(lowpower_timer_i<(lowpower_timerover_max*10))
+		 if(lowpower_timer_i<(lowpower_timerover_max*30))
 		 {
 		 lowpower_timer_i++;
 		 }
@@ -393,7 +393,7 @@ static void nus_data_handler(ble_nus_evt_t * p_evt)//蓝牙接收到数据
 	      length=p_evt->params.rx_data.length;
 			  
         //	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); //串口发送
-			  if(1){
+			  if(uartbuf[0]==0x5a){
 			  ble_nus_data_send(&m_nus, ack, &len, m_conn_handle);
 				dfu_flag=1;//进入dfu
 				}

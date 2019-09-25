@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2015 - 2019, Nordic Semiconductor ASA
+ * Copyright (c) 2014 - 2019, Nordic Semiconductor ASA
  *
  * All rights reserved.
  *
@@ -134,7 +134,7 @@ static void application_timers_start(void)
 {
     ret_code_t err_code;
 
-    //// Start application timers.
+    // Start application timers.
     err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(500), NULL);
     APP_ERROR_CHECK(err_code);
 

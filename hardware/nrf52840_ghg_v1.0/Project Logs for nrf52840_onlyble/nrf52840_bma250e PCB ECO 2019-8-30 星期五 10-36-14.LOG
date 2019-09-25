@@ -1,0 +1,6 @@
+Added Component: Designator=P1(bat)
+Added Pin To Net: NetName=VDD_NRF Pin=P1-1
+Added Pin To Net: NetName=VDD_NRF Pin=P1-2
+Added Pin To Net: NetName=GND Pin=P1-3
+Added Member To Class: ClassName=nrf52840 Member=Component P1 Header 3
+Added Room: Name=nrf52840

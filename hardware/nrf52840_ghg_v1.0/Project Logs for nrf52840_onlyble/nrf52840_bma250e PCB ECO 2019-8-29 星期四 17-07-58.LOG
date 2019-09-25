@@ -1,0 +1,39 @@
+Removed Pin From Net: NetName=VDD_NRF Pin=C13-1
+Removed Pin From Net: NetName=GND Pin=C13-2
+Removed Pin From Net: NetName=GND Pin=C14-1
+Removed Pin From Net: NetName=VDD_NRF Pin=C14-2
+Removed Pin From Net: NetName=P0.13 Pin=R1-1
+Removed Pin From Net: NetName=VDD_NRF Pin=R1-2
+Removed Pin From Net: NetName=P0.12 Pin=R2-1
+Removed Pin From Net: NetName=VDD_NRF Pin=R2-2
+Removed Pin From Net: NetName=VDD_NRF Pin=R3-1
+Removed Pin From Net: NetName=GND Pin=U1-1
+Removed Pin From Net: NetName=P0.12 Pin=U1-2
+Removed Pin From Net: NetName=VDD_NRF Pin=U1-3
+Removed Pin From Net: NetName=GND Pin=U1-4
+Removed Pin From Net: NetName=P0.15 Pin=U1-5
+Removed Pin From Net: NetName=VDD_NRF Pin=U1-7
+Removed Pin From Net: NetName=GND Pin=U1-8
+Removed Pin From Net: NetName=GND Pin=U1-9
+Removed Pin From Net: NetName=P0.13 Pin=U1-12
+Removed Member From Class: ClassName=nrf52840 Member=C13
+Removed Member From Class: ClassName=nrf52840 Member=C14
+Removed Member From Class: ClassName=nrf52840 Member=R1
+Removed Member From Class: ClassName=nrf52840 Member=R2
+Removed Member From Class: ClassName=nrf52840 Member=R3
+Removed Member From Class: ClassName=nrf52840 Member=U1
+Change Component DesignItemId : Designator=C1 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì
+Change Component DesignItemId : Designator=C6 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì
+Change Component DesignItemId : Designator=C15 Old DesignItemId=C0603-4¦Ì7-6.3V-X7R New DesignItemId=C0603-4¦Ì7-6.3V-X7
+Change Component Comment : Designator=C11 Old Comment=0.5pF New Comment=NC
+Change Component Comment : Designator=C10 Old Comment=0.8pF New Comment=0.75pF
+Change Component Comment : Designator=C1 Old Comment=1.0¦ÌF New Comment=1.0¦ÌF
+Change Component Comment : Designator=C6 Old Comment=1.0¦ÌF New Comment=1.0¦ÌF
+Change Component Comment : Designator=L1 Old Comment=4.7nH New Comment=1nH
+Change Component Comment : Designator=C15 Old Comment=4.7¦ÌF New Comment=4.7¦ÌF
+Added Component: Designator=P3(HDR1_2_1.25)
+Added Pin To Net: NetName=P0.15 Pin=P3-1
+Added Pin To Net: NetName=GND Pin=P3-2
+Added Member To Class: ClassName=nrf52840 Member=Component P2 Header 4
+Added Member To Class: ClassName=nrf52840 Member=Component P3 Header 2
+Added Room: Name=nrf52840

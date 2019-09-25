@@ -203,7 +203,7 @@ uint32_t ble_nus_c_init(ble_nus_c_t * p_ble_nus_c, ble_nus_c_init_t * p_ble_nus_
  */
  void ble_nus_c_on_db_disc_evt(ble_nus_c_t * p_ble_nus_c, ble_db_discovery_evt_t * p_evt);
 
-
+void mac_ble_nus_c_on_db_disc_evt(ble_nus_c_t * p_ble_nus_c, ble_db_discovery_evt_t * p_evt);
 /**@brief     Function for handling BLE events from the SoftDevice.
  *
  * @details   This function handles the BLE events received from the SoftDevice. If a BLE

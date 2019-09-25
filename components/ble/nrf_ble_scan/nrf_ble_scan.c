@@ -54,6 +54,10 @@
 
 #define NRF_LOG_MODULE_NAME ble_scan
 #include "nrf_log.h"
+
+unsigned char ADDR_wn_[NRF_SDH_BLE_CENTRAL_LINK_COUNT][6];//´ı¹ıÂËmacµØÖ·´æ´¢Î»ÖÃ
+unsigned char ADDR_counter=0;//NRF_SDH_BLE_CENTRAL_LINK_COUNT;
+
 NRF_LOG_MODULE_REGISTER();
 
 extern unsigned char Mac_temp[6];//wn
@@ -194,6 +198,8 @@ static bool find_peer_addr(ble_gap_evt_adv_report_t const * const p_adv_report,
 }
 
 
+
+
 /** @brief Function for comparing the provided address with the addresses of the advertising devices.
  *
  * @param[in] p_adv_report    Advertising data to parse.
@@ -218,6 +224,11 @@ static bool adv_addr_compare(ble_gap_evt_adv_report_t const * const p_adv_report
 
     return false;
 }
+
+
+
+
+
 
 
 /**@brief Function for adding target address to the scanning filter.
@@ -851,6 +862,41 @@ ret_code_t nrf_ble_scan_filter_get(nrf_ble_scan_t * const   p_scan_ctx,
 
 #endif // NRF_BLE_SCAN_FILTER_ENABLE
 
+
+
+
+
+
+static bool find_peer_addr_wn_(ble_gap_evt_adv_report_t const * const p_adv_report,
+                           unsigned char                  * p_addr)
+{
+
+        // Compare addresses.
+        if (memcmp(p_addr,
+                   p_adv_report->peer_addr.addr,
+                   sizeof(p_adv_report->peer_addr.addr)) == 0)
+        {
+            return true;
+        }
+
+    return false;
+}
+
+static bool adv_addr_compare_wn_(ble_gap_evt_adv_report_t const * const p_adv_report,
+                             unsigned char* addr_wn,unsigned char counter_addr_wn)
+{
+
+    for (uint8_t index = 0; index < counter_addr_wn; index++)
+    {
+        // Search for address.
+        if (find_peer_addr_wn_(p_adv_report, (unsigned char*)&(addr_wn[index*6])))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
 /**@brief Function for calling the BLE_GAP_EVT_ADV_REPORT event to check whether the received
  *        scanning data matches the scan configuration.
  *
@@ -964,7 +1010,7 @@ static void nrf_ble_scan_on_adv_report(nrf_ble_scan_t           const * const p_
     if (uuid_filter_enabled)
     {
         filter_cnt++;
-        if (adv_uuid_compare(p_adv_report, p_scan_ctx))
+        if (adv_uuid_compare(p_adv_report, p_scan_ctx)&&adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(!mac_ok((unsigned char*)(&p_adv_report->peer_addr.addr))))//wn
         {
             filter_match_cnt++;
             // Information about the filters matched.
