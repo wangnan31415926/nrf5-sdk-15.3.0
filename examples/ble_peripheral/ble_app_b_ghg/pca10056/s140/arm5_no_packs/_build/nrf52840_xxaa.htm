@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Thu Sep 12 14:42:27 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Sep 30 10:53:46 2019
 <BR><P>
 <H3>Maximum Stack Usage =        544 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -511,9 +511,9 @@ Global Symbols
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;advertising_start
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
-<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
 <LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;softdevices_evt_irq_enable
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
+<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
 </UL>
 
 <P><STRONG><a name="[c8]"></a>app_sched_execute</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, app_scheduler.o(i.app_sched_execute))
@@ -655,9 +655,9 @@ Global Symbols
 <P><STRONG><a name="[72]"></a>ble_advertising_start</STRONG> (Thumb, 556 bytes, Stack size 40 bytes, ble_advertising.o(i.ble_advertising_start))
 <BR><BR>[Stack]<UL><LI>Max Depth = 84<LI>Call Chain = ble_advertising_start &rArr; flags_set &rArr; ble_advdata_parse &rArr; ble_advdata_search
 </UL>
-<BR>[Calls]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;phy_is_valid
+<BR>[Calls]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;use_whitelist
+<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;phy_is_valid
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;flags_set
-<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;use_whitelist
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
 <BR>[Called By]<UL><LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advertising_on_ble_evt
@@ -1006,8 +1006,8 @@ Global Symbols
 <P><STRONG><a name="[5c]"></a>nrf_pwr_mgmt_shutdown</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, nrf_pwr_mgmt.o(i.nrf_pwr_mgmt_shutdown))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = nrf_pwr_mgmt_shutdown &rArr; shutdown_process &rArr; nrf_section_iter_next &rArr; nrf_section_iter_item_set
 </UL>
-<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
-<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_atomic_u32_fetch_store
+<BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_atomic_u32_fetch_store
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterDFU
 </UL>
@@ -1057,11 +1057,11 @@ Global Symbols
 
 <P><STRONG><a name="[d9]"></a>nrf_section_iter_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, nrf_section_iter.o(i.nrf_section_iter_init))
 <BR><BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_pwr_mgmt_init
-<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
-<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_evts_poll
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
+<LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
+<LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_evts_poll
 </UL>
 
 <P><STRONG><a name="[dc]"></a>nrf_section_iter_next</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, nrf_section_iter.o(i.nrf_section_iter_next))
@@ -1069,12 +1069,12 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_section_iter_item_set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
+<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
+<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_evts_poll
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
-<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
 </UL>
 
 <P><STRONG><a name="[d6]"></a>nrfx_clock_enable</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, nrfx_clock.o(i.nrfx_clock_enable))
@@ -1328,10 +1328,10 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[83]"></a>uint16_encode</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ble_advdata.o(i.uint16_encode))
-<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advdata_encode
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;service_data_encode
+<BR><BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;service_data_encode
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;manuf_specific_data_encode
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_int_encode
+<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advdata_encode
 </UL>
 
 <P><STRONG><a name="[84]"></a>uuid_list_encode</STRONG> (Thumb, 48 bytes, Stack size 32 bytes, ble_advdata.o(i.uuid_list_encode))

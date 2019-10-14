@@ -1,0 +1,11 @@
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\components\ble\common\ble_srv_common.c
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\components\ble\common\ble_srv_common.h
+.\_build\ble_srv_common.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\ble_srv_common.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\components\softdevice\s112\headers\ble_types.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\components\libraries\util\app_util.h
+.\_build\ble_srv_common.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\modules\nrfx\mdk\compiler_abstraction.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\components\libraries\util\nordic_common.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\ble_srv_common.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h
