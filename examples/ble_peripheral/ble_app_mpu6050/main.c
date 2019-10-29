@@ -116,7 +116,7 @@
 
 
 #define BUTTON_0    15
-#define lowpower_timerover_max 1  //设置低功耗超时时间为5分钟，即5分钟无动作进入低功耗
+#define lowpower_timerover_max 2  //设置低功耗超时时间为5分钟，即5分钟无动作进入低功耗
 
 
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
@@ -131,7 +131,7 @@ unsigned char uartbuf[50];
 unsigned char length=0;
 unsigned char connect_flag=0;  //蓝牙是否连接标志位
 unsigned char Adv_flag=0;      //蓝牙是否广播标志位
-unsigned char bma250Lwp_flag=0;//传感器低功耗标志位
+unsigned char MPU6050Lwp_flag=0;//传感器低功耗标志位
 unsigned char bma250_i=0;
 unsigned short bma250_j=0;
 unsigned short lowpower_timer_i=0;//累计无动作时间
@@ -160,9 +160,9 @@ static void application_timers_start(void)
 //    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
 //    APP_ERROR_CHECK(err_code);
 	
-//	    // Start application timers.
-//    err_code = app_timer_start(m_lowpower_timer_id, APP_TIMER_TICKS(1000), NULL);
-//    APP_ERROR_CHECK(err_code);
+	    // Start application timers.
+    err_code = app_timer_start(m_lowpower_timer_id, APP_TIMER_TICKS(1000), NULL);
+    APP_ERROR_CHECK(err_code);
 
 }
 
@@ -192,15 +192,17 @@ unsigned char con_stop_flag=1;//连接情况下定时器停止标志位 1-定时器停止 0-定时器
 //到达超时限制，关闭广播，bma进入lowpower
 void lowpower_timeout_handler(void * p_context)
 	{
+		unsigned char data=0;
 		 UNUSED_PARAMETER(p_context);
-    nrf_drv_wdt_feed();
+		
+		nrf_drv_wdt_feed();
 		if(dfu_flag==1)
 		{
 			EnterDFU();
 			NVIC_SystemReset();
 		}
 		
-		 if(lowpower_timer_i<(lowpower_timerover_max*30))
+		 if(lowpower_timer_i<(lowpower_timerover_max*60))
 		 {
 		 lowpower_timer_i++;
 		 }
@@ -209,43 +211,44 @@ void lowpower_timeout_handler(void * p_context)
 			 
 			 if(Adv_flag!=0)//没有关闭广播
 			 {//低功耗处理
-				 if(connect_flag==0)
-         {
-				  sd_ble_gap_adv_stop(m_advertising.adv_handle);
-				  Adv_flag=0;//请标志位
-				 }//关闭蓝牙广播
+				if(connect_flag==0)
+				{
+					sd_ble_gap_adv_stop(m_advertising.adv_handle);
+					Adv_flag=0;//请标志位
+				}//关闭蓝牙广播
 			 }
 
-				if(con_stop_flag!=1)
-					{
-						app_timer_stop(m_test_timer_id); 
-						con_stop_flag=1;
-						bma250_i=0;
-						bma250_j=0;
-					}
+			if(con_stop_flag!=1)
+			{
+				app_timer_stop(m_test_timer_id); 
+				con_stop_flag=1;
+				bma250_i=0;
+				bma250_j=0;
+			}
 				 
 			 
 			 
-			 if(bma250Lwp_flag!=0)//传感器未进低功耗
+			 if(MPU6050Lwp_flag!=0)//传感器未进低功耗
 			 {//低功耗处理
-				 bma_lowpower();
+				 		MPU6050_lowpowermode();//MPU6050_SetSleepModeStatus(1);//进入休眠
+				 	  MPU6050Lwp_flag=0;//工作模式标志置清零
 			 }
 			 
 		 }
 		 
 		 //定时读取中断标志位
-		 if(BMA250_interrupt_status())
+		 MPU6050_InterruptStatus_Read(&data);
+		 if((data&0x40)==0x40)
 		 {
 		    lowpower_timer_i=0;
-			 
-				if(Adv_flag==0)//判断是否广播
+			 	if(Adv_flag==0)//判断是否广播
 				{    
 				advertising_start();
 				Adv_flag=1;//蓝牙广播标志位置1
 				}//进行广播
 				
-  			if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
-				{bma_init();}//bma250进入工作模式
+  			if(MPU6050Lwp_flag==0)//判断mpu6050是否进入工作模式
+				{MPU6050_Initialize();}//进入工作模式
 				
 				if(con_stop_flag==1)
 				{
@@ -258,44 +261,33 @@ void lowpower_timeout_handler(void * p_context)
 		
 	}
 
-
+unsigned char wn[1];
+#define usedata 6
 void test_timeout_handler(void * p_context)
 {
 	static unsigned char i=0;
 	static unsigned short j=0;
 
 	 UNUSED_PARAMETER(p_context);
+	
+	MPU6050_GetRawAccelGyro(&uartbuf[bma250_i*usedata]);
 
-//	 BMA253_Timer_Handler();
-	MPU6050_GetRawAccelGyro(uartbuf);
-	j=14;
-	ble_nus_data_send(&m_nus, uartbuf, &j, m_conn_handle);
-    
-//		uartbuf[0+bma250_i*6]=V_BMA255FIFOData_U8R[1];
-//		uartbuf[1+bma250_i*6]=V_BMA255FIFOData_U8R[0];
+	if(bma250_j<40&&bma250_i<45)
+	{
+		bma250_j=bma250_j+usedata;
+		bma250_i++;
+	}
 
-//		uartbuf[2+bma250_i*6]=V_BMA255FIFOData_U8R[3];
-//		uartbuf[3+bma250_i*6]=V_BMA255FIFOData_U8R[2];
-
-//		uartbuf[4+bma250_i*6]=V_BMA255FIFOData_U8R[5];
-//		uartbuf[5+bma250_i*6]=V_BMA255FIFOData_U8R[4];
-//	  
-//	  if(bma250_j<40&&bma250_i<45)
-//	  {
-//			bma250_j=bma250_j+6;
-//	    bma250_i++;
-//		}
-
-//	if(connect_flag==1&&bma250_i>=3)
-//	{
-//	  uartbuf[0+bma250_i*6]=(unsigned char)(num>>8);
-//	  uartbuf[1+bma250_i*6]=(unsigned char)num;
-//		bma250_j=bma250_j+2;
-//	  ble_nus_data_send(&m_nus, uartbuf, &bma250_j, m_conn_handle);
-//    bma250_j=0;
-//    bma250_i=0;
-//    num++;		
-//	}
+	if(connect_flag==1&&bma250_i>=3)
+	{
+		uartbuf[0+bma250_i*usedata]=(unsigned char)(num>>8);
+		uartbuf[1+bma250_i*usedata]=(unsigned char)num;
+  	bma250_j=bma250_j+2;
+		ble_nus_data_send(&m_nus, uartbuf, &bma250_j, m_conn_handle);
+		bma250_j=0;
+		bma250_i=0;
+		num++;		
+	}
 }
 
 /**@brief Function for assert macro callback.
@@ -550,9 +542,6 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
             APP_ERROR_CHECK(err_code);
 				    connect_flag=1;
-            app_timer_start(m_test_timer_id, APP_TIMER_TICKS(20), NULL);
-						APP_ERROR_CHECK(err_code);
-
             break;
 
         case BLE_GAP_EVT_DISCONNECTED:
@@ -892,8 +881,8 @@ nrfx_gpiote_evt_handler_t Button_handle(nrfx_gpiote_pin_t pin, nrf_gpiote_polari
 		 Adv_flag=1;//蓝牙广播标志位置1
 	 }//进行广播
 		
-	  if(bma250Lwp_flag==0)//判断bma250是否进入工作模式
-	  {bma_init();}//bma250进入工作模式
+	  if(MPU6050Lwp_flag==0)//判断bma250是否进入工作模式
+	  {}//bma250进入工作模式
 }
 
 //GPIOTE 中断初始化
@@ -969,14 +958,14 @@ int main(void)
     // Start execution.
     //    printf("\r\nUART started.\r\n");
 
-	  tx_power_set();            //设置广播功率
+	tx_power_set();            //设置广播功率
     advertising_start();       //开启蓝牙广播
-		Adv_flag=1;                //蓝牙广播标志位置1
-//    bma_init();                //bma底层初始化
+	Adv_flag=1;                //蓝牙广播标志位置1
+
     application_timers_start();//开启定时器
-MPU6050_Initialize();
-		dfu_flag=0;                //dfu标志清零
-//		WDT_Init();                //开启看门狗
+    MPU6050_Initialize();
+	dfu_flag=0;                //dfu标志清零
+		WDT_Init();                //开启看门狗
     // Enter main loop.
     for (;;)
     {

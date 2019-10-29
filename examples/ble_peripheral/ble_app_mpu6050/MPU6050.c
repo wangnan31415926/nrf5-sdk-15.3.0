@@ -29,9 +29,10 @@
  */
 
 /* Includes */
+#include "nrf_delay.h"
 #include "MPU6050.h"
 #include "IIC_DMWZ.h"
-
+extern unsigned char MPU6050Lwp_flag;
 /** @defgroup MPU6050_Library
  * @{
  */
@@ -45,10 +46,36 @@
  */
 void MPU6050_Initialize()
 {
-    MPU6050_SetClockSource(MPU6050_CLOCK_PLL_XGYRO);
-    MPU6050_SetFullScaleGyroRange(MPU6050_GYRO_FS_250);
-    MPU6050_SetFullScaleAccelRange(MPU6050_ACCEL_FS_2);
-    MPU6050_SetSleepModeStatus(DISABLE);
+	  unsigned char data_=0;
+		nrf_delay_ms(200);
+		SCL_();
+		MPU6050_reset(TRUE);
+		nrf_delay_ms(300);
+		MPU6050_SetSleepModeStatus(DISABLE);
+		MPU6050_SetFullScaleGyroRange(MPU6050_GYRO_FS_2000);
+		MPU6050_SetClockSource(MPU6050_CLOCK_PLL_XGYRO);
+		MPU6050_SetFullScaleAccelRange(MPU6050_ACCEL_FS_2);
+		MPU6050_SetTEMP_DisStatus(TRUE);
+		MPU6050_SIMPDIV(0x50);
+	
+	//中断配置
+	  MPU6050_reg(MPU6050_RA_MOT_THR,0x01);            //运动阈值 
+	  MPU6050_ReadBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_MOT_THR, 7, 8, &data_);
+	  if(data_!=0x01){MPU6050_reg(MPU6050_RA_MOT_THR,0x01);            //运动阈值 
+		}
+		
+    MPU6050_reg(MPU6050_RA_MOT_DUR,0x01);            //检测时间20ms 单位1ms 寄存器0X20
+	  MPU6050_ReadBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_MOT_DUR, 7, 8, &data_);
+	  if(data_!=0x01){MPU6050_reg(MPU6050_RA_MOT_DUR,0x01);            //检测时间20ms 单位1ms 寄存器0X20
+		}
+		
+	  MPU6050_reg(MPU6050_RA_INT_ENABLE,0x40);         //中断使能寄存器
+	  MPU6050_ReadBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_INT_ENABLE, 7, 8, &data_);
+	  if(data_!=0x40){MPU6050_reg(MPU6050_RA_INT_ENABLE,0x40);         //中断使能寄存器
+		}		
+	//中断配置end
+	
+		MPU6050Lwp_flag=1;//bma工作模式标志置1
 }
 
 /** Verify the I2C connection.
@@ -108,6 +135,17 @@ uint8_t MPU6050_GetDeviceID()
 void MPU6050_SetClockSource(uint8_t source)
 {
     MPU6050_WriteBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CLKSEL_BIT, MPU6050_PWR1_CLKSEL_LENGTH, source);
+}
+
+
+void MPU6050_reset(uint8_t NewState)
+{
+	MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_DEVICE_RESET_BIT, NewState);
+}
+
+void MPU6050_InterruptStatus_Read(unsigned char* data)
+{
+	MPU6050_ReadBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_INT_STATUS, 7, 8, data);
 }
 
 /** Set full-scale gyroscope range.
@@ -200,6 +238,32 @@ bool MPU6050_GetSleepModeStatus()
     return tmp == 0x00 ? FALSE : TRUE;
 }
 
+void MPU6050_lowpowermode(void)
+{
+	unsigned char data_bit=0;
+	
+	MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT, 1);
+	MPU6050_ReadBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT, &data_bit);
+	if(data_bit!=1){MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT, 1);
+	}
+	
+	MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XG_BIT, 1);
+	MPU6050_ReadBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XG_BIT, &data_bit);
+	if(data_bit!=1){MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_XG_BIT, 1);
+	}
+	
+	MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YG_BIT, 1);
+	MPU6050_ReadBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YG_BIT, &data_bit);
+	if(data_bit!=1){MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_YG_BIT, 1);
+	}
+	
+	MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZG_BIT, 1);
+	MPU6050_ReadBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZG_BIT, &data_bit);
+	if(data_bit!=1){MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_2, MPU6050_PWR2_STBY_ZG_BIT, 1);
+	}
+	
+}
+
 /** Set sleep mode status.
  * @param enabled New sleep mode enabled status
  * @see MPU6050_GetSleepModeStatus()
@@ -211,22 +275,35 @@ void MPU6050_SetSleepModeStatus(unsigned char NewState)
     MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_SLEEP_BIT, NewState);
 }
 
+void MPU6050_SetCYCLEStatus(unsigned char NewState)
+{
+    MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_CYCLE_BIT, NewState);
+}
+//设置温度检测，关闭温度检测
+void MPU6050_SetTEMP_DisStatus(unsigned char NewState)
+{
+    MPU6050_WriteBit(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_PWR_MGMT_1, MPU6050_PWR1_TEMP_DIS_BIT, NewState);
+}
+//设置分频
+void MPU6050_SIMPDIV(unsigned char data)
+{
+	MPU6050_WriteBits(MPU6050_DEFAULT_ADDRESS, MPU6050_RA_SMPLRT_DIV, 7, 8,data);
+}
+
+//设置寄存器值
+void MPU6050_reg(unsigned char reg_add,unsigned char data)
+{
+	MPU6050_WriteBits(MPU6050_DEFAULT_ADDRESS, reg_add, 7, 8,data);
+}
 /** Get raw 6-axis motion sensor readings (accel/gyro).
  * Retrieves all currently available motion sensor values.
  * @param AccelGyro 16-bit signed integer array of length 6
  * @see MPU6050_RA_ACCEL_XOUT_H
+*获取传感器加速度数据。
  */
 void MPU6050_GetRawAccelGyro(unsigned char* AccelGyro)
 {
-//    u8 tmpBuffer[14];
-    MPU6050_I2C_BufferRead(MPU6050_DEFAULT_ADDRESS, AccelGyro, MPU6050_RA_ACCEL_XOUT_H, 14);
-//    /* Get acceleration */
-//    for (int i = 0; i < 3; i++)
-//        AccelGyro[i] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
-//    /* Get Angular rate */
-//    for (int i = 4; i < 7; i++)
-//        AccelGyro[i - 1] = ((s16) ((u16) tmpBuffer[2 * i] << 8) + tmpBuffer[2 * i + 1]);
-
+    MPU6050_I2C_BufferRead(MPU6050_DEFAULT_ADDRESS, AccelGyro, MPU6050_RA_GYRO_XOUT_H,6);
 }
 
 /** Write multiple bits in an 8-bit device register.

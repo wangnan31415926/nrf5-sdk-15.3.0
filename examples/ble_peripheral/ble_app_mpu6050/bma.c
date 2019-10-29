@@ -903,7 +903,7 @@ unsigned int BMA255_FIFODAQ(void)
    bma255_burst_read(0x3F, V_BMA255FIFOData_U8R, v_noofbytestoread_u8r);
 }
 
-extern unsigned char bma250Lwp_flag;
+//extern unsigned char bma250Lwp_flag;
 
 void bma_init(void)
 {
@@ -939,7 +939,7 @@ void bma_init(void)
 //	bma255_set_mode(BMA255_MODE_LOWPOWER1);
 //	BMA250E_WriteReg(BMA255_MODE_CTRL_REG, 0x56);//设置low power使能
 //	BMA250E_WriteReg(BMA255_LOW_NOISE_CTRL_REG, 0x00);//设置lwp1使能
-	bma250Lwp_flag=1;//bma工作模式标志置1
+//	bma250Lwp_flag=1;//bma工作模式标志置1
 	
 //	BMA250E_WriteReg(BMA255_FIFO_MODE_REG, 0x80);
 //	bma255_set_sleep_dur(BMA255_SLEEP_DUR_25MS);

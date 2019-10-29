@@ -257,17 +257,30 @@ unsigned char crc8_(unsigned char* buf,unsigned char l)
 	return crc;
 }
 
+static unsigned char check_mac_save(unsigned char* buf)
+{
+  unsigned char i;
+  for(i=0;i<ADDR_counter;i++)
+  {
+    if(memcmp(buf,&ADDR_wn_[i][0],6)==0)
+    {
+        check_mac_id=i;
+        return 0;
+    }//已经存有mac地址
+  }
+
+  return 1;//没有相同mac地址的存储
+}
 //存储数据永远是从低到高的地址依次存储
 //设置mac数据，此函数只进行缓存数据的处理
 unsigned char set_mac(unsigned char* buf)
 {
-	unsigned char i;
-  if(0)//判断是否还有存储mac的空间
+  if(ADDR_counter>NRF_SDH_BLE_CENTRAL_LINK_COUNT||ADDR_counter==NRF_SDH_BLE_CENTRAL_LINK_COUNT)//判断是否还有存储mac的空间
 	{
 		return 0x67;//没有空间
 	}
 	
-	if(1)//查找mac地址是否已经存储
+	if(check_mac_save(buf))//查找mac地址是否已经存储
 	{//没有存储，进行存储
 		memcpy(&ADDR_wn_[ADDR_counter][0],buf,6);
 		ADDR_counter++;
@@ -284,7 +297,7 @@ unsigned char clean_mac(unsigned char* buf)
 	unsigned char i;
 	unsigned char data0[]={0,0,0,0,0,0};
 	
-	if(1)//查找mac地址是否已经存储
+	if(!check_mac_save(buf))//查找mac地址是否已经存储
 	{
 	 //有存储，进行删除动作
 	 //根据查找到的位置进行删除
@@ -309,7 +322,7 @@ unsigned char clean_mac(unsigned char* buf)
  *头 + 指令 + 长度 + 数据 + crc（1字节）
  *a55a  01     6     mac      xx             -----------设置需要过滤的mac地址
  *a55a  02     6     mac      xx             -----------删除指定mac地址
- *a55a  03     \      \       \              -----------获取当前所有过滤mac地址 长度+mac+crc(长度+mac)，如果没有返回 0
+ *a55a  03     \      \       \              -----------获取当前所有过滤mac地址 mac的个数+所有的mac+crc(长度+mac)，如果没有返回 0
  *a55a  04     \      \       \              -----------开启扫描
  *a55a  05     \      \       \              -----------复位设备，可进行初始化配置，所有设置必须在没有进行扫描工作时进行配置
  *                          crc=crc[长度+mac]
@@ -348,7 +361,7 @@ void uart_event_handle(app_uart_evt_t * p_event)
 									case 0x01://设置需要过滤的mac地址
 												if(1)//(crc8_(&uart_rdata_array[3],7)==uart_rdata_array[10])
 												{
-                          app_uart_put(set_mac(&uart_rdata_array[4]));//校验正确,进行mac设置
+                                                    app_uart_put(set_mac(&uart_rdata_array[4]));//校验正确,进行mac设置
 												}
 												else
 												{
@@ -367,18 +380,28 @@ void uart_event_handle(app_uart_evt_t * p_event)
 												}
 									break;
 									case 0x03:
-										          uartbuf[0]=ADDR_counter;                                    //多少个mac地址需要过滤
-										      		memcpy(&uartbuf[1],ADDR_wn_,6*ADDR_counter);                //mac地址存入串口发送缓冲区
-		                          length=6*ADDR_counter+1;                                   //串口数据长度赋值
-		                          app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend);   //串口发送//获取当前所有mac地址
+                                                uartbuf[0]=ADDR_counter;                                        //多少个mac地址需要过滤
+                                                if(ADDR_counter!=0)
+										        {
+										        	memcpy(&uartbuf[1],ADDR_wn_,6*ADDR_counter);                //mac地址存入串口发送缓冲区
+		                                            length=6*ADDR_counter+1;
+                                                    uartbuf[length]=crc8_(uartbuf,length);                        //计算校验值
+                                                    length++;                                                   //串口数据长度赋值
+                                                    app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend);    //串口发送//获取当前所有mac地址
+                                                }
+                                                else
+                                                {
+                                                    length=1;
+                                                    app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
+                                                }
 									break;
 									case 0x04://开启扫描工作
 										        app_uart_put(ok);
 									          //将flash中的mac地址复制到缓存中
-									          scan_start();
+									            scan_start();
 									break;
 									case 0x05://复位
-			                      NVIC_SystemReset();
+			                                    NVIC_SystemReset();
 									break;
 								}
 							

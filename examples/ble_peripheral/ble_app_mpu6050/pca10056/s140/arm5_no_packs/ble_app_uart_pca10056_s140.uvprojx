@@ -395,11 +395,6 @@
               <FilePath>..\..\..\IIC_DMWZ.c</FilePath>
             </File>
             <File>
-              <FileName>bma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\bma.c</FilePath>
-            </File>
-            <File>
               <FileName>MPU6050.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\MPU6050.c</FilePath>
@@ -3878,11 +3873,6 @@
               <FileName>IIC_DMWZ.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\IIC_DMWZ.c</FilePath>
-            </File>
-            <File>
-              <FileName>bma.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\bma.c</FilePath>
             </File>
             <File>
               <FileName>MPU6050.c</FileName>

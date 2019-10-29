@@ -93,8 +93,8 @@
 
 #define APP_ADV_DURATION                0//18000                                       /**< The advertising duration (180 seconds) in units of 10 milliseconds. */
 
-#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(20, UNIT_1_25_MS)             /**< Minimum acceptable connection interval (20 ms), Connection interval uses 1.25 ms units. */
-#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(75, UNIT_1_25_MS)             /**< Maximum acceptable connection interval (75 ms), Connection interval uses 1.25 ms units. */
+#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(8, UNIT_1_25_MS)             /**< Minimum acceptable connection interval (20 ms), Connection interval uses 1.25 ms units. */
+#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(13, UNIT_1_25_MS)             /**< Maximum acceptable connection interval (75 ms), Connection interval uses 1.25 ms units. */
 #define SLAVE_LATENCY                   0                                           /**< Slave latency. */
 #define CONN_SUP_TIMEOUT                MSEC_TO_UNITS(4000, UNIT_10_MS)             /**< Connection supervisory timeout (4 seconds), Supervision Timeout uses 10 ms units. */
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(5000)                       /**< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds). */
@@ -296,35 +296,35 @@ static void nrf_qwr_error_handler(uint32_t nrf_error)
 static void nus_data_handler(ble_nus_evt_t * p_evt)
 {
 
-//    if (p_evt->type == BLE_NUS_EVT_RX_DATA)
-//    {
-//        uint32_t err_code;
+    if (p_evt->type == BLE_NUS_EVT_RX_DATA)
+    {
+        uint32_t err_code;
 
-//        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
-//        NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
-////
-//			
-//				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
-//	length=p_evt->params.rx_data.length;
-//	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
-////        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
-////        {
-////            do
-////            {
-////                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
-////                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
-////                {
-////                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
-////                    APP_ERROR_CHECK(err_code);
-////                }
-////            } while (err_code == NRF_ERROR_BUSY);
-////        }
-//				//
-//        if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
+        NRF_LOG_DEBUG("Received data from BLE NUS. Writing data on UART.");
+        NRF_LOG_HEXDUMP_DEBUG(p_evt->params.rx_data.p_data, p_evt->params.rx_data.length);
+//
+			
+				memcpy(uartbuf,&p_evt->params.rx_data.p_data[0],p_evt->params.rx_data.length);
+	length=p_evt->params.rx_data.length;
+	app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend); 
+//        for (uint32_t i = 0; i < p_evt->params.rx_data.length; i++)
 //        {
-//            while (app_uart_put('\n') == NRF_ERROR_BUSY);
+//            do
+//            {
+//                err_code = app_uart_put(p_evt->params.rx_data.p_data[i]);
+//                if ((err_code != NRF_SUCCESS) && (err_code != NRF_ERROR_BUSY))
+//                {
+//                    NRF_LOG_ERROR("Failed receiving NUS message. Error 0x%x. ", err_code);
+//                    APP_ERROR_CHECK(err_code);
+//                }
+//            } while (err_code == NRF_ERROR_BUSY);
 //        }
-//    }
+				//
+        if (p_evt->params.rx_data.p_data[p_evt->params.rx_data.length - 1] == '\r')
+        {
+            while (app_uart_put('\n') == NRF_ERROR_BUSY);
+        }
+    }
 
 }
 /**@snippet [Handling the data received over BLE] */
@@ -473,7 +473,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             err_code = nrf_ble_qwr_conn_handle_assign(&m_qwr, m_conn_handle);
             APP_ERROR_CHECK(err_code);
 				    
-				 sd_ble_gap_rssi_start(m_conn_handle,0,0);
+//				 sd_ble_gap_rssi_start(m_conn_handle,0,0);
 //			   err_code = app_timer_start(m_rssi_timer_id,APP_TIMER_TICKS(500), NULL);
 //		     APP_ERROR_CHECK(err_code);
          connect_flag=1;
@@ -482,7 +482,7 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
 
         case BLE_GAP_EVT_DISCONNECTED:
             NRF_LOG_INFO("Disconnected");
-				sd_ble_gap_rssi_stop(m_conn_handle);
+//				   sd_ble_gap_rssi_stop(m_conn_handle);
 //			err_code = app_timer_stop(m_rssi_timer_id);
              
 				     connect_flag=0;
@@ -635,51 +635,51 @@ void bsp_event_handler(bsp_event_t event)
 /**@snippet [Handling the data received over UART] */
 void uart_event_handle(app_uart_evt_t * p_event)
 {
-    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN];
-    static uint8_t index = 0;
-    uint32_t       err_code;
+//    static uint8_t data_array[BLE_NUS_MAX_DATA_LEN];
+//    static uint8_t index = 0;
+//    uint32_t       err_code;
 
-    switch (p_event->evt_type)
-    {
-        case APP_UART_DATA_READY:
-            UNUSED_VARIABLE(app_uart_get(&data_array[index]));
-            index++;
+//    switch (p_event->evt_type)
+//    {
+//        case APP_UART_DATA_READY:
+//            UNUSED_VARIABLE(app_uart_get(&data_array[index]));
+//            index++;
 
-            if (index >=7)//((data_array[index - 1] == '\n') || (data_array[index - 1] == '\r') || (index >= m_ble_nus_max_data_len))
-            {
-                if (index > 1)
-                {
-                    NRF_LOG_DEBUG("Ready to send data over BLE NUS");
-                    NRF_LOG_HEXDUMP_DEBUG(data_array, index);
+//            if (index >=7)//((data_array[index - 1] == '\n') || (data_array[index - 1] == '\r') || (index >= m_ble_nus_max_data_len))
+//            {
+//                if (index > 1)
+//                {
+//                    NRF_LOG_DEBUG("Ready to send data over BLE NUS");
+//                    NRF_LOG_HEXDUMP_DEBUG(data_array, index);
 
-                    do
-                    {
-                        uint16_t length = (uint16_t)index;
-                        err_code = ble_nus_data_send(&m_nus, data_array, &length, m_conn_handle);
-                        if ((err_code != NRF_ERROR_INVALID_STATE) &&
-                            (err_code != NRF_ERROR_RESOURCES) &&
-                            (err_code != NRF_ERROR_NOT_FOUND))
-                        {
-                            APP_ERROR_CHECK(err_code);
-                        }
-                    } while (err_code == NRF_ERROR_RESOURCES);
-                }
+//                    do
+//                    {
+//                        uint16_t length = (uint16_t)index;
+//                        err_code = ble_nus_data_send(&m_nus, data_array, &length, m_conn_handle);
+//                        if ((err_code != NRF_ERROR_INVALID_STATE) &&
+//                            (err_code != NRF_ERROR_RESOURCES) &&
+//                            (err_code != NRF_ERROR_NOT_FOUND))
+//                        {
+//                            APP_ERROR_CHECK(err_code);
+//                        }
+//                    } while (err_code == NRF_ERROR_RESOURCES);
+//                }
 
-                index = 0;
-            }
-            break;
+//                index = 0;
+//            }
+//            break;
 
-        case APP_UART_COMMUNICATION_ERROR:
-            APP_ERROR_HANDLER(p_event->data.error_communication);
-            break;
+//        case APP_UART_COMMUNICATION_ERROR:
+//            APP_ERROR_HANDLER(p_event->data.error_communication);
+//            break;
 
-        case APP_UART_FIFO_ERROR:
-            APP_ERROR_HANDLER(p_event->data.error_code);
-            break;
+//        case APP_UART_FIFO_ERROR:
+//            APP_ERROR_HANDLER(p_event->data.error_code);
+//            break;
 
-        default:
-            break;
-    }
+//        default:
+//            break;
+//    }
 }
 /**@snippet [Handling the data received over UART] */
 
@@ -821,20 +821,17 @@ static void tx_power_set(void)
 /**@brief Application main function.
  */
 
-
-  
- 
 int main(void)
 {
     bool erase_bonds;
 
     // Initialize.
-//    uart_init();
+    uart_init();
 //    log_init();
     timers_init();
-	   nrf_gpio_cfg_output(LED);
+//	   nrf_gpio_cfg_output(LED);
 //    buttons_leds_init(&erase_bonds);
-//		APP_SCHED_INIT(50,30);  //wn
+		APP_SCHED_INIT(50,30);  //wn
     power_management_init();
     ble_stack_init();
     gap_params_init();
@@ -854,7 +851,7 @@ int main(void)
     // Enter main loop.
     for (;;)
     {
-//			  app_sched_execute();
+			  app_sched_execute();
         idle_state_handle();
     }
 }
