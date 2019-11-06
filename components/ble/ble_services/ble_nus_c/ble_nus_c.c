@@ -64,7 +64,7 @@ void ble_nus_c_on_db_disc_evt(ble_nus_c_t * p_ble_nus_c, ble_db_discovery_evt_t 
 
     // Check if the NUS was discovered.
     if (    (p_evt->evt_type == BLE_DB_DISCOVERY_COMPLETE)
-        &&  (p_evt->params.discovered_db.srv_uuid.uuid == BLE_UUID_NUS_SERVICE)
+        &&  ((p_evt->params.discovered_db.srv_uuid.uuid == BLE_UUID_NUS_SERVICE_BMA250)||(p_evt->params.discovered_db.srv_uuid.uuid == BLE_UUID_NUS_SERVICE_MPU6050))
         &&  (p_evt->params.discovered_db.srv_uuid.type == p_ble_nus_c->uuid_type))
 
 
@@ -136,14 +136,16 @@ uint32_t ble_nus_c_init(ble_nus_c_t * p_ble_nus_c, ble_nus_c_init_t * p_ble_nus_
     VERIFY_SUCCESS(err_code);
 
     uart_uuid.type = p_ble_nus_c->uuid_type;
-    uart_uuid.uuid = BLE_UUID_NUS_SERVICE;
+    uart_uuid.uuid = BLE_UUID_NUS_SERVICE_BMA250;
 
     p_ble_nus_c->conn_handle           = BLE_CONN_HANDLE_INVALID;
     p_ble_nus_c->evt_handler           = p_ble_nus_c_init->evt_handler;
     p_ble_nus_c->handles.nus_tx_handle = BLE_GATT_HANDLE_INVALID;
     p_ble_nus_c->handles.nus_rx_handle = BLE_GATT_HANDLE_INVALID;
 
-    return ble_db_discovery_evt_register(&uart_uuid);
+    ble_db_discovery_evt_register(&uart_uuid);
+	  uart_uuid.uuid = BLE_UUID_NUS_SERVICE_MPU6050;
+	  return ble_db_discovery_evt_register(&uart_uuid);
 }
 
 void ble_nus_c_on_ble_evt(ble_evt_t const * p_ble_evt, void * p_context)

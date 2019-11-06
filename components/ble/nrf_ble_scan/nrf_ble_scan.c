@@ -506,6 +506,8 @@ static bool adv_uuid_compare(ble_gap_evt_adv_report_t const * const p_adv_report
 
     data_len = p_adv_report->data.len;
 
+		
+		
     for (index = 0; index < counter; index++)
     {
 
@@ -528,6 +530,7 @@ static bool adv_uuid_compare(ble_gap_evt_adv_report_t const * const p_adv_report
         else
         {
             // Do nothing.
+							
         }
     }
 
@@ -535,6 +538,7 @@ static bool adv_uuid_compare(ble_gap_evt_adv_report_t const * const p_adv_report
     if ((all_filters_mode && (uuid_match_cnt == counter)) ||
         ((!all_filters_mode) && (uuid_match_cnt > 0)))
     {
+
         return true;
     }
 
@@ -1010,7 +1014,7 @@ static void nrf_ble_scan_on_adv_report(nrf_ble_scan_t           const * const p_
     if (uuid_filter_enabled)
     {
         filter_cnt++;
-        if (adv_uuid_compare(p_adv_report, p_scan_ctx)&&adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(!mac_ok((unsigned char*)(&p_adv_report->peer_addr.addr))))//wn
+        if(adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(adv_uuid_compare(p_adv_report, p_scan_ctx)&&adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(!mac_ok((unsigned char*)(&p_adv_report->peer_addr.addr))))//wn
         {
             filter_match_cnt++;
             // Information about the filters matched.

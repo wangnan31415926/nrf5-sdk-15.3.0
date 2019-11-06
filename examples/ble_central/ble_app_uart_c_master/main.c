@@ -68,6 +68,7 @@
 
 unsigned char DeviceName[]="YASNodic_Uart";
 unsigned char Mac_temp[6];
+
 //
 extern unsigned char ADDR_wn_[NRF_SDH_BLE_CENTRAL_LINK_COUNT][6];//待过滤mac地址存储位置
 extern unsigned char ADDR_counter;
@@ -89,6 +90,7 @@ BLE_NUS_C_ARRAY_DEF(m_ble_nus_c,NRF_SDH_BLE_CENTRAL_LINK_COUNT);  //BLE_NUS_C_DE
 NRF_BLE_GATT_DEF(m_gatt);                                               /**< GATT module instance. */
 BLE_DB_DISCOVERY_DEF(m_db_disc);                                        /**< Database discovery module instance. */
 NRF_BLE_SCAN_DEF(m_scan);                                               /**< Scanning Module instance. */
+NRF_BLE_SCAN_DEF(m_scan_6050);                                               /**< Scanning Module instance. */
 
 static uint16_t m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - OPCODE_LENGTH - HANDLE_LENGTH; /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 
@@ -100,7 +102,14 @@ unsigned char mac_6_buf[6];//mac地址过滤缓冲区
 /**@brief NUS UUID. */
 static ble_uuid_t const m_nus_uuid =
 {
-    .uuid = BLE_UUID_NUS_SERVICE,
+    .uuid = BLE_UUID_NUS_SERVICE_BMA250,
+    .type = NUS_SERVICE_UUID_TYPE
+};
+
+/**@brief NUS UUID. */
+static ble_uuid_t const m_nus_uuid_6050 =
+{
+    .uuid = BLE_UUID_NUS_SERVICE_MPU6050,
     .type = NUS_SERVICE_UUID_TYPE
 };
 
@@ -193,9 +202,15 @@ static void scan_init(void)
 
     err_code = nrf_ble_scan_filter_set(&m_scan, SCAN_UUID_FILTER, &m_nus_uuid);
     APP_ERROR_CHECK(err_code);
+		
+	  err_code = nrf_ble_scan_filter_set(&m_scan_6050, SCAN_UUID_FILTER, &m_nus_uuid_6050);
+	  APP_ERROR_CHECK(err_code);
+
 
     err_code = nrf_ble_scan_filters_enable(&m_scan, NRF_BLE_SCAN_UUID_FILTER, false);
     APP_ERROR_CHECK(err_code);
+	///////////////////////////////////////////////////////////////////////////////////////
+
 }
 
 

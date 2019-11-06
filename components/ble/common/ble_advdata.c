@@ -623,6 +623,7 @@ uint16_t ble_advdata_search(uint8_t const * p_encoded_data,
 {
     if ((p_encoded_data == NULL) || (p_offset == NULL))
     {
+			
         return 0;
     }
 
@@ -746,6 +747,7 @@ bool ble_advdata_uuid_find(uint8_t    const * p_encoded_data,
 
     err_code = sd_ble_uuid_encode(p_target_uuid, &raw_uuid_len, raw_uuid);
 
+		
     if ((p_encoded_data == NULL) || (err_code != NRF_SUCCESS))
     {
         // Invalid p_encoded_data or p_target_uuid.
@@ -782,7 +784,7 @@ bool ble_advdata_uuid_find(uint8_t    const * p_encoded_data,
     if (data_offset == 0)
     {
         // Could not find any relevant UUIDs in the encoded data.
-        return false;
+			  return false;
     }
 
     p_parsed_uuid = &p_encoded_data[data_offset];

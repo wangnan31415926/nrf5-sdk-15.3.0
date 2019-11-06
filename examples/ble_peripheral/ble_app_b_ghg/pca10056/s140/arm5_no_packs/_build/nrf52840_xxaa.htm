@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Sep 30 10:53:46 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Nov 06 14:16:25 2019
 <BR><P>
 <H3>Maximum Stack Usage =        544 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -511,9 +511,9 @@ Global Symbols
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 <LI><a href="#[71]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;advertising_start
 <LI><a href="#[45]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
-<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;softdevices_evt_irq_enable
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
+<LI><a href="#[df]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;softdevices_evt_irq_enable
 </UL>
 
 <P><STRONG><a name="[c8]"></a>app_sched_execute</STRONG> (Thumb, 58 bytes, Stack size 8 bytes, app_scheduler.o(i.app_sched_execute))
@@ -553,9 +553,9 @@ Global Symbols
 <LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetPendingIRQ
 </UL>
 <BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_negotiation
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
-<LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_negotiation
 </UL>
 
 <P><STRONG><a name="[7d]"></a>app_timer_stop</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, app_timer.o(i.app_timer_stop))
@@ -563,9 +563,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_stop_op_schedule
 </UL>
-<BR>[Called By]<UL><LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
+<BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
+<LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_led_indication
 <LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_button_event_handler
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
 <P><STRONG><a name="[79]"></a>app_util_critical_region_enter</STRONG> (Thumb, 64 bytes, Stack size 12 bytes, app_util_platform.o(i.app_util_critical_region_enter))
@@ -575,8 +575,8 @@ Global Symbols
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_enable_request
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_pwr_mgmt_run
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_timer_start
-<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_clock_lfclk_release
+<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_stop_op_schedule
 </UL>
 
@@ -585,8 +585,8 @@ Global Symbols
 <LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_enable_request
 <LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_pwr_mgmt_run
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_timer_start
-<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 <LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_clock_lfclk_release
+<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 <LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;timer_stop_op_schedule
 </UL>
 
@@ -716,9 +716,9 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> main.o(sdh_ble_observers2)
 </UL>
 <P><STRONG><a name="[98]"></a>ble_srv_is_notification_enabled</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, ble_srv_common.o(i.ble_srv_is_notification_enabled))
-<BR><BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_write
+<BR><BR>[Called By]<UL><LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_write
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;on_connect
-<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_evt_handler
 </UL>
 
 <P><STRONG><a name="[e5]"></a>bsp_board_button_idx_to_pin</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, boards.o(i.bsp_board_button_idx_to_pin))
@@ -1006,8 +1006,8 @@ Global Symbols
 <P><STRONG><a name="[5c]"></a>nrf_pwr_mgmt_shutdown</STRONG> (Thumb, 54 bytes, Stack size 16 bytes, nrf_pwr_mgmt.o(i.nrf_pwr_mgmt_shutdown))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = nrf_pwr_mgmt_shutdown &rArr; shutdown_process &rArr; nrf_section_iter_next &rArr; nrf_section_iter_item_set
 </UL>
-<BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_atomic_u32_fetch_store
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
+<BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
+<LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_atomic_u32_fetch_store
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnterDFU
 </UL>
@@ -1057,11 +1057,11 @@ Global Symbols
 
 <P><STRONG><a name="[d9]"></a>nrf_section_iter_init</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, nrf_section_iter.o(i.nrf_section_iter_init))
 <BR><BR>[Called By]<UL><LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_pwr_mgmt_init
-<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_evts_poll
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
 </UL>
 
 <P><STRONG><a name="[dc]"></a>nrf_section_iter_next</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, nrf_section_iter.o(i.nrf_section_iter_next))
@@ -1069,17 +1069,17 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_section_iter_item_set
 </UL>
-<BR>[Called By]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
-<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
-<LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
+<BR>[Called By]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_process
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_soc_evts_poll
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_ble_evts_poll
 <LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_sdh_evts_poll
+<LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_state_observer_notify
+<LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sdh_request_observer_notify
 </UL>
 
 <P><STRONG><a name="[d6]"></a>nrfx_clock_enable</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, nrfx_clock.o(i.nrfx_clock_enable))
-<BR><BR>[Called By]<UL><LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
-<LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_clock_init
+<BR><BR>[Called By]<UL><LI><a href="#[d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_drv_clock_init
+<LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sd_state_evt_handler
 </UL>
 
 <P><STRONG><a name="[d4]"></a>nrfx_clock_init</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, nrfx_clock.o(i.nrfx_clock_init))
@@ -1328,10 +1328,10 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[83]"></a>uint16_encode</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ble_advdata.o(i.uint16_encode))
-<BR><BR>[Called By]<UL><LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;service_data_encode
+<BR><BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advdata_encode
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;service_data_encode
 <LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;manuf_specific_data_encode
 <LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_int_encode
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_advdata_encode
 </UL>
 
 <P><STRONG><a name="[84]"></a>uuid_list_encode</STRONG> (Thumb, 48 bytes, Stack size 32 bytes, ble_advdata.o(i.uuid_list_encode))
@@ -1367,12 +1367,12 @@ Local Symbols
 <P><STRONG><a name="[49]"></a>ble_evt_handler</STRONG> (Thumb, 242 bytes, Stack size 32 bytes, ble_conn_params.o(i.ble_evt_handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 100<LI>Call Chain = ble_evt_handler &rArr; conn_params_negotiation &rArr; app_timer_start &rArr; app_util_critical_region_enter
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_timer_stop
-<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
-<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_error_evt
+<BR>[Calls]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;send_error_evt
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;is_conn_params_ok
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;instance_get
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;conn_params_negotiation
+<LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_timer_stop
+<LI><a href="#[98]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ble_srv_is_notification_enabled
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> ble_conn_params.o(sdh_ble_observers1)
 </UL>
