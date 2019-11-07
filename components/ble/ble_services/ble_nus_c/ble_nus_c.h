@@ -168,6 +168,7 @@ struct ble_nus_c_s
     ble_nus_c_handles_t     handles;        /**< Handles on the connected peer device needed to interact with it. */
     ble_nus_c_evt_handler_t evt_handler;    /**< Application event handler to be called when there is an event related to the NUS. */
     uint8_t                 mac[6];         //wn
+	  uint8_t                 uuid[16];       //wn
 };
 
 /**@brief NUS Client initialization structure. */

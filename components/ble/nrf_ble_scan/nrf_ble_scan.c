@@ -60,6 +60,7 @@ unsigned char ADDR_counter=0;//NRF_SDH_BLE_CENTRAL_LINK_COUNT;
 
 NRF_LOG_MODULE_REGISTER();
 
+extern unsigned char uuid_temp[16];
 extern unsigned char Mac_temp[6];//wn
 /**@brief Function for establishing the connection with a device.
  *
@@ -96,8 +97,12 @@ static void nrf_ble_scan_connect_with_target(nrf_ble_scan_t           const * co
     memset(&scan_evt, 0, sizeof(scan_evt));
 
 		//wn
-		memset(Mac_temp,0,6);
-		memcpy(Mac_temp,p_addr->addr,6);
+		memset(Mac_temp,0,sizeof(Mac_temp));
+		memcpy(Mac_temp,p_addr->addr,sizeof(Mac_temp));
+		
+		memset(uuid_temp,0,sizeof(uuid_temp));
+		memcpy(uuid_temp,&(p_adv_report->data.p_data)[2],p_adv_report->data.len-2);
+
 		//
 
     // Establish connection.
@@ -1014,8 +1019,17 @@ static void nrf_ble_scan_on_adv_report(nrf_ble_scan_t           const * const p_
     if (uuid_filter_enabled)
     {
         filter_cnt++;
-        if(adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(adv_uuid_compare(p_adv_report, p_scan_ctx)&&adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(!mac_ok((unsigned char*)(&p_adv_report->peer_addr.addr))))//wn
+        if(adv_uuid_compare(p_adv_report, p_scan_ctx)&&adv_addr_compare_wn_(p_adv_report,(unsigned char*)ADDR_wn_,ADDR_counter))//(!mac_ok((unsigned char*)(&p_adv_report->peer_addr.addr))))//wn
         {
+					
+//									printf("p_adv_report_uuid_2:\r\n");
+//		for(unsigned short i=0;i<p_adv_report->data.len;i++)
+//		{
+//		printf(",%02x",(p_adv_report->data.p_data)[i]);
+//		}
+//		printf("end");
+					
+					
             filter_match_cnt++;
             // Information about the filters matched.
             scan_evt.params.filter_match.filter_match.uuid_filter_match = true;

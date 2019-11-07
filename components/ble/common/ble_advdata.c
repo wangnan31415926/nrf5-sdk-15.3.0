@@ -792,10 +792,11 @@ bool ble_advdata_uuid_find(uint8_t    const * p_encoded_data,
     // Verify if any UUID matches the given UUID.
     for (uint16_t list_offset = 0; list_offset < parsed_uuid_len; list_offset += raw_uuid_len)
     {
-        if (memcmp(&p_parsed_uuid[list_offset], raw_uuid, raw_uuid_len) == 0)
-        {
-            return true;
-        }
+//        if (memcmp(&p_parsed_uuid[list_offset], raw_uuid, raw_uuid_len) == 0)   wn
+//        {
+//            return true;
+//        }
+				return true;
     }
 
     // Could not find the UUID among the encoded data.

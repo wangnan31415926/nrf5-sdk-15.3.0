@@ -68,6 +68,7 @@
 
 unsigned char DeviceName[]="YASNodic_Uart";
 unsigned char Mac_temp[6];
+unsigned char uuid_temp[16];
 
 //
 extern unsigned char ADDR_wn_[NRF_SDH_BLE_CENTRAL_LINK_COUNT][6];//待过滤mac地址存储位置
@@ -94,7 +95,7 @@ NRF_BLE_SCAN_DEF(m_scan_6050);                                               /**
 
 static uint16_t m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - OPCODE_LENGTH - HANDLE_LENGTH; /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 
-unsigned char uartbuf[50];//串口发送缓冲区
+unsigned char uartbuf[128];//串口发送缓冲区
 unsigned char length=0;   //串口需要发送的数据长度
 
 unsigned char mac_6_buf[6];//mac地址过滤缓冲区
@@ -247,11 +248,19 @@ static void ble_nus_chars_received_uart_print(uint8_t * p_data, uint16_t data_le
 
 //    NRF_LOG_DEBUG("Receiving data.");
 //    NRF_LOG_HEXDUMP_DEBUG(p_data, data_len);
-	
-		memcpy(uartbuf,p_data,data_len);                               //将蓝牙接收的数据存入串口发送缓冲区
-		length=data_len;                                               //串口数据长度赋值
+
+	  for(unsigned char i=0;i<16;i++)//准备发送的uuid
+	  {
+		  uartbuf[i]=m_ble_nus_c[conn_handle].uuid[15-i];
+	  }
+		length=16;
+
 		memcpy(&uartbuf[length],&m_ble_nus_c[conn_handle].mac[0],6);   //mac地址存入串口发送缓冲区
-		length=length+6;                                               //串口数据长度赋值
+		length=length+6; 	
+	
+		memcpy(&uartbuf[length],p_data,data_len);                      //将蓝牙接收的数据存入串口发送缓冲区
+		length=length+data_len;                                        //串口数据长度赋值
+		
 		app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend);       //串口发送
 
 }
@@ -562,7 +571,8 @@ static void ble_evt_handler(ble_evt_t const * p_ble_evt, void * p_context)
             err_code = ble_nus_c_handles_assign(&m_ble_nus_c[p_ble_evt->evt.gap_evt.conn_handle], p_ble_evt->evt.gap_evt.conn_handle, NULL);//wn
             APP_ERROR_CHECK(err_code);
             //wn
-				    memcpy(m_ble_nus_c[p_ble_evt->evt.gap_evt.conn_handle].mac,Mac_temp,6);
+				    memcpy(m_ble_nus_c[p_ble_evt->evt.gap_evt.conn_handle].mac,Mac_temp,sizeof(Mac_temp));
+				    memcpy(m_ble_nus_c[p_ble_evt->evt.gap_evt.conn_handle].uuid,uuid_temp,sizeof(uuid_temp));
 						//
             err_code = bsp_indication_set(BSP_INDICATE_CONNECTED);
             APP_ERROR_CHECK(err_code);
