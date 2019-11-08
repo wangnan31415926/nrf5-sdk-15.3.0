@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Wed Nov 06 17:06:02 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Fri Nov 08 15:24:39 2019
 <BR><P>
 <H3>Maximum Stack Usage =        248 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -91,7 +91,7 @@ Function Pointers
  <LI><a href="#[56]">ble_evt_handler</a> from main.o(i.ble_evt_handler) referenced from main.o(sdh_ble_observers3)
  <LI><a href="#[3c]">ble_nus_c_evt_handler</a> from main.o(i.ble_nus_c_evt_handler) referenced from main.o(i.ble_evt_handler)
  <LI><a href="#[3c]">ble_nus_c_evt_handler</a> from main.o(i.ble_nus_c_evt_handler) referenced from main.o(i.main)
- <LI><a href="#[55]">ble_nus_c_on_ble_evt</a> from ble_nus_c.o(i.ble_nus_c_on_ble_evt) referenced 3 times from main.o(sdh_ble_observers2)
+ <LI><a href="#[55]">ble_nus_c_on_ble_evt</a> from ble_nus_c.o(i.ble_nus_c_on_ble_evt) referenced 21 times from main.o(sdh_ble_observers2)
  <LI><a href="#[4c]">bsp_button_event_handler</a> from bsp.o(i.bsp_button_event_handler) referenced 4 times from bsp.o(.constdata)
  <LI><a href="#[45]">bsp_event_handler</a> from main.o(i.bsp_event_handler) referenced from main.o(i.main)
  <LI><a href="#[3e]">button_timer_handler</a> from bsp.o(i.button_timer_handler) referenced from bsp.o(i.bsp_init)
@@ -398,7 +398,8 @@ Global Symbols
 <P><STRONG><a name="[60]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_ble_scan_connect_with_target
+<BR>[Called By]<UL><LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;nrf_ble_scan_connect_with_target
 <LI><a href="#[b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;discovery_start
 </UL>
 
@@ -1033,6 +1034,7 @@ Global Symbols
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gatt_init
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;scan_init
 <LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
+<LI><a href="#[60]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
@@ -1088,7 +1090,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gatt_init
 </UL>
 
-<P><STRONG><a name="[dc]"></a>nrf_ble_gatt_init</STRONG> (Thumb, 44 bytes, Stack size 16 bytes, nrf_ble_gatt.o(i.nrf_ble_gatt_init))
+<P><STRONG><a name="[dc]"></a>nrf_ble_gatt_init</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, nrf_ble_gatt.o(i.nrf_ble_gatt_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = nrf_ble_gatt_init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_init
@@ -1096,7 +1098,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gatt_init
 </UL>
 
-<P><STRONG><a name="[51]"></a>nrf_ble_gatt_on_ble_evt</STRONG> (Thumb, 418 bytes, Stack size 88 bytes, nrf_ble_gatt.o(i.nrf_ble_gatt_on_ble_evt))
+<P><STRONG><a name="[51]"></a>nrf_ble_gatt_on_ble_evt</STRONG> (Thumb, 430 bytes, Stack size 88 bytes, nrf_ble_gatt.o(i.nrf_ble_gatt_on_ble_evt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = nrf_ble_gatt_on_ble_evt &rArr; data_length_update
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;link_init

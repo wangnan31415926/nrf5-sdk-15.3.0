@@ -98,7 +98,7 @@ NRF_SDH_BLE_OBSERVERS(_name ## _obs,                     \
                       BLE_NUS_C_BLE_OBSERVER_PRIO,       \
                       ble_nus_c_on_ble_evt, &_name, _cnt)
 
-#define NUS_BASE_UUID                   {{0x9F, 0xCA, 0xDC, 0x24, 0x0E, 0xE5, 0xA9, 0xE0, 0x93, 0xF3, 0xA3, 0xB5, 0x00, 0x00, 0x40, 0x6E}} /**< Used vendor specific UUID. */
+#define NUS_BASE_UUID                   {{0x9f, 0xCA, 0xDC, 0x24, 0x0E, 0xE5, 0xA9, 0xE0, 0x93, 0xF3, 0xA3, 0xB5, 0x00, 0x00, 0x40, 0x6E}} /**< Used vendor specific UUID. */
 
 
 #define BLE_UUID_NUS_RX_CHARACTERISTIC  0x0002                      /**< The UUID of the RX Characteristic. */
