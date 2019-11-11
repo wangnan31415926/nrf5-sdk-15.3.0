@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\_build\nrf52840_xxaa.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\_build\nrf52840_xxaa.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Fri Nov 08 15:24:39 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060422: Last Updated: Mon Nov 11 16:09:44 2019
 <BR><P>
 <H3>Maximum Stack Usage =        248 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -566,7 +566,6 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[4a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_error_fault_handler
 </UL>
 <BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_uart_get
-<LI><a href="#[44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uart_event_handle
 <LI><a href="#[35]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gatt_init
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;shutdown_handler
@@ -1442,13 +1441,12 @@ Global Symbols
 <P><STRONG><a name="[42]"></a>test_timeout_handler</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, main.o(i.test_timeout_handler))
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.main)
 </UL>
-<P><STRONG><a name="[44]"></a>uart_event_handle</STRONG> (Thumb, 248 bytes, Stack size 24 bytes, main.o(i.uart_event_handle))
+<P><STRONG><a name="[44]"></a>uart_event_handle</STRONG> (Thumb, 232 bytes, Stack size 24 bytes, main.o(i.uart_event_handle))
 <BR><BR>[Stack]<UL><LI>Max Depth = 124<LI>Call Chain = uart_event_handle &rArr; scan_start &rArr; bsp_indication_set &rArr; bsp_led_indication &rArr; app_timer_start &rArr; app_util_critical_region_enter
 </UL>
 <BR>[Calls]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_uart_put
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_uart_get
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_sched_event_put
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;app_error_handler_bare
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_mac
 <LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;crc8_
 <LI><a href="#[d2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clean_mac

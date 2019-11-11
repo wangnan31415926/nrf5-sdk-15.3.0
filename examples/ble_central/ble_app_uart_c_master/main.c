@@ -435,51 +435,19 @@ void uart_event_handle(app_uart_evt_t * p_event)
 						
 							app_uart_put(fail); 
 						}
-//#if defined(recive_wn)
-//            if ((uart_rdata_array[index - 1] == '\n') || (ble_index >= (m_ble_nus_max_data_len)))
-//            {
-//                NRF_LOG_DEBUG("Ready to send data over BLE NUS");
-//                NRF_LOG_HEXDUMP_DEBUG(uart_rdata_array, ble_index);
-////wn
-//							for(peer_index=0;peer_index<NRF_SDH_BLE_CENTRAL_LINK_COUNT;peer_index++)
-//							{//查找需要接收ble数据的mac地址
-//								if(uart_rdata_array[ble_index-2]==m_ble_nus_c[peer_index].mac[5]&&
-//									 uart_rdata_array[ble_index-3]==m_ble_nus_c[peer_index].mac[4]&&
-//								   uart_rdata_array[ble_index-4]==m_ble_nus_c[peer_index].mac[3]&&
-//								   uart_rdata_array[ble_index-5]==m_ble_nus_c[peer_index].mac[2]&&
-//								   uart_rdata_array[ble_index-6]==m_ble_nus_c[peer_index].mac[1]&&
-//								   uart_rdata_array[ble_index-7]==m_ble_nus_c[peer_index].mac[0]
-//								   )
-//								{break;}
-//							}
-//							if(peer_index<NRF_SDH_BLE_CENTRAL_LINK_COUNT)
-//							{//数据发送给指定从设备，根据mac地址
-//                do
-//                {
-//                    ret_val = ble_nus_c_string_send(&m_ble_nus_c[peer_index], uart_rdata_array, ble_index-7);
-//                    if ( (ret_val != NRF_ERROR_INVALID_STATE) && (ret_val != NRF_ERROR_RESOURCES) )
-//                    {
-//                        APP_ERROR_CHECK(ret_val);
-//                    }
-//                } while (ret_val == NRF_ERROR_RESOURCES);
-//							}
-////wn end
-//                ble_index = 0;
-//            }
-//#endif 
-             
+
             break;
 
-        /**@snippet [Handling data from UART] */
-        case APP_UART_COMMUNICATION_ERROR:
-            NRF_LOG_ERROR("Communication error occurred while handling UART.");
-            APP_ERROR_HANDLER(p_event->data.error_communication);
-            break;
+//        /**@snippet [Handling data from UART] */
+//        case APP_UART_COMMUNICATION_ERROR:
+//            NRF_LOG_ERROR("Communication error occurred while handling UART.");
+//            APP_ERROR_HANDLER(p_event->data.error_communication);
+//            break;
 
-        case APP_UART_FIFO_ERROR:
-            NRF_LOG_ERROR("Error occurred in FIFO module used by UART.");
-            APP_ERROR_HANDLER(p_event->data.error_code);
-            break;
+//        case APP_UART_FIFO_ERROR:
+//            NRF_LOG_ERROR("Error occurred in FIFO module used by UART.");
+//            APP_ERROR_HANDLER(p_event->data.error_code);
+//            break;
 
         default:
             break;
