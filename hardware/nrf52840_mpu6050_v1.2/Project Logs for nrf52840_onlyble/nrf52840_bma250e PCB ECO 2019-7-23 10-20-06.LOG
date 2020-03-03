@@ -1,0 +1,22 @@
+Change Component DesignItemId : Designator=C1 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì0
+Change Component DesignItemId : Designator=C6 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì0
+Change Component DesignItemId : Designator=C15 Old DesignItemId=C0603-4¦Ì7-6.3V-X7R New DesignItemId=C0603-4¦Ì7-6.3V-X7R
+Change Component Footprint: Designator=C2 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C4 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C5 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C8 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C9 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C10 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C11 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C12 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=L1 Old Footprint=0402 New Footprint=0402-A
+Change Component Footprint: Designator=C1 Old Footprint=0603 New Footprint=0402-A
+Change Component Footprint: Designator=C3 Old Footprint=0603 New Footprint=0402-A
+Change Component Footprint: Designator=C6 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C7 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C13 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C14 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C15 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C16 Old Footprint=0603 New Footprint=0603-1
+Change Component Footprint: Designator=C17 Old Footprint=0603 New Footprint=0603-1
+Added Room: Name=nrf52840

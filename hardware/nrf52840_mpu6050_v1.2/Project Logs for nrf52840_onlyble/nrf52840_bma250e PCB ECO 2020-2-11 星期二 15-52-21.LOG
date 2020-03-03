@@ -1,0 +1,4 @@
+Change Component DesignItemId : Designator=C13 Old DesignItemId=C0603-4¦Ì7-6.3V New DesignItemId=C0603-4¦Ì7-6.3
+Added Pin To Net: NetName=RF Pin=L1-2
+Change Net Name : Old Net Name=NetC3_2 New Net Name=NetC10_2
+Added Room: Name=nrf52840

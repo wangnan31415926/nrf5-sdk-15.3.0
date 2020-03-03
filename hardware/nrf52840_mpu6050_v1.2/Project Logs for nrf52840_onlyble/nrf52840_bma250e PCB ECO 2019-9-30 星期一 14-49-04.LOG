@@ -1,0 +1,92 @@
+Removed Pin From Net: NetName=NetC3_1 Pin=C3-1
+Removed Pin From Net: NetName=GND Pin=C3-2
+Removed Pin From Net: NetName=DEC4_6 Pin=C9-2
+Removed Pin From Net: NetName=VDD_NRF Pin=C13-1
+Removed Pin From Net: NetName=GND Pin=C13-2
+Removed Pin From Net: NetName=GND Pin=C14-1
+Removed Pin From Net: NetName=VDD_NRF Pin=C14-2
+Removed Pin From Net: NetName=RF Pin=L1-2
+Removed Pin From Net: NetName=P0.13 Pin=R1-1
+Removed Pin From Net: NetName=P0.12 Pin=R2-1
+Removed Pin From Net: NetName=VDD_NRF Pin=R2-2
+Removed Pin From Net: NetName=VDD_NRF Pin=R3-1
+Removed Pin From Net: NetName=NetR3_2 Pin=R3-2
+Removed Pin From Net: NetName=NetC3_1 Pin=U2-A18
+Change Component DesignItemId : Designator=C3 Old DesignItemId=C0402-N.C. New DesignItemId=C0402-0.8p
+Change Component DesignItemId : Designator=C9 Old DesignItemId=C0402-N.C. New DesignItemId=C0402-0.8p
+Change Component DesignItemId : Designator=C1 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì
+Change Component DesignItemId : Designator=C6 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì
+Change Component DesignItemId : Designator=C15 Old DesignItemId=C0603-4¦Ì7-6.3V-X7R New DesignItemId=C0603-4¦Ì7-6.3V-X7
+Change Component Comment : Designator=C11 Old Comment=0.5pF New Comment=NC
+Change Component Comment : Designator=C10 Old Comment=0.8pF New Comment=NC
+Change Component Comment : Designator=C1 Old Comment=1.0¦ÌF New Comment=1.0¦ÌF
+Change Component Comment : Designator=C6 Old Comment=1.0¦ÌF New Comment=1.0¦ÌF
+Change Component Comment : Designator=L1 Old Comment=4.7nH New Comment=NC
+Change Component Comment : Designator=C15 Old Comment=4.7¦ÌF New Comment=4.7¦ÌF
+Change Component Comment : Designator=R1 Old Comment=10K New Comment=4.7K
+Change Component Comment : Designator=R2 Old Comment=10K New Comment=4.7K
+Change Component Comment : Designator=R3 Old Comment=10K New Comment=4.7K
+Change Component Comment : Designator=C3 Old Comment=N.C. New Comment=NC
+Change Component Comment : Designator=C9 Old Comment=N.C. New Comment=NC
+Change Component Designator: OldDesignator=C15 NewDesignator=C13
+Change Component Designator: OldDesignator=C16 NewDesignator=C14
+Change Component Designator: OldDesignator=U2 NewDesignator=U1
+Change Component Description : Designator=C3 Old Description=Not mounted New Description=Capacitor, NP0, ¡À10%
+Change Component Description : Designator=C9 Old Description=Not mounted New Description=Capacitor, NP0, ¡À10%
+Added Component: Designator=C15(0402-A)
+Added Component: Designator=C16(0402-A)
+Added Component: Designator=C18(0402-A)
+Added Component: Designator=C19(0402-A)
+Added Component: Designator=L2(0402-A)
+Added Component: Designator=P2(HDR1X4)
+Added Component: Designator=R4(0402-A)
+Added Component: Designator=U2(mpu6050)
+Added Pin To Net: NetName=GND Pin=C3-1
+Added Pin To Net: NetName=NetC10_2 Pin=C3-2
+Added Pin To Net: NetName=RF Pin=C9-2
+Added Pin To Net: NetName=GND Pin=C15-1
+Added Pin To Net: NetName=NetC3_1 Pin=C15-2
+Added Pin To Net: NetName=GND Pin=C16-1
+Added Pin To Net: NetName=VDD_NRF Pin=C16-2
+Added Pin To Net: NetName=GND Pin=C18-1
+Added Pin To Net: NetName=NetR3_2 Pin=C18-2
+Added Pin To Net: NetName=GND Pin=C19-1
+Added Pin To Net: NetName=VDD_NRF Pin=C19-2
+Added Pin To Net: NetName=RF Pin=L2-2
+Added Pin To Net: NetName=GND Pin=P2-1
+Added Pin To Net: NetName=SWDIO Pin=P2-2
+Added Pin To Net: NetName=SWDCLK Pin=P2-3
+Added Pin To Net: NetName=VDD_NRF Pin=P2-4
+Added Pin To Net: NetName=P0.12 Pin=R1-1
+Added Pin To Net: NetName=VDD_NRF Pin=R2-1
+Added Pin To Net: NetName=P0.13 Pin=R2-2
+Added Pin To Net: NetName=GND Pin=R3-2
+Added Pin To Net: NetName=P0.15 Pin=R4-2
+Added Pin To Net: NetName=GND Pin=U2-1
+Added Pin To Net: NetName=VDD_NRF Pin=U2-8
+Added Pin To Net: NetName=NetR3_2 Pin=U2-10
+Added Pin To Net: NetName=GND Pin=U2-11
+Added Pin To Net: NetName=VDD_NRF Pin=U2-13
+Added Pin To Net: NetName=GND Pin=U2-18
+Added Pin To Net: NetName=NetC3_1 Pin=U2-20
+Added Pin To Net: NetName=P0.13 Pin=U2-23
+Added Pin To Net: NetName=P0.12 Pin=U2-24
+Change Net Name : Old Net Name=NetC3_1 New Net Name=NetC15_2
+Change Net Name : Old Net Name=NetC10_2 New Net Name=NetC3_2
+Change Net Name : Old Net Name=NetR3_2 New Net Name=NetC18_2
+Added Pin To Net: NetName=NetL1_2 Pin=L1-2
+Added Pin To Net: NetName=NetL1_2 Pin=L2-1
+Added Net: Name=NetL1_2
+Added Pin To Net: NetName=NetR3_1 Pin=R3-1
+Added Pin To Net: NetName=NetR3_1 Pin=U2-9
+Added Net: Name=NetR3_1
+Added Pin To Net: NetName=NetR4_1 Pin=R4-1
+Added Pin To Net: NetName=NetR4_1 Pin=U2-12
+Added Net: Name=NetR4_1
+Added Member To Class: ClassName=nrf52840 Member=Component C18 0.1uF
+Added Member To Class: ClassName=nrf52840 Member=Component C19 0.1uF
+Added Member To Class: ClassName=nrf52840 Member=Component L2 NC
+Added Member To Class: ClassName=nrf52840 Member=Component P2 Header 4
+Added Member To Class: ClassName=nrf52840 Member=Component R4 0R
+Added Member To Class: ClassName=nrf52840 Member=Component U2 mpu6050
+Added Room: Name=nrf52840

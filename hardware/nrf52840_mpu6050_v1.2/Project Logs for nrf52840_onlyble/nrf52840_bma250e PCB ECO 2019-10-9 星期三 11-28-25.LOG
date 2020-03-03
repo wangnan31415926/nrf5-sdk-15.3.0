@@ -1,0 +1,11 @@
+Change Component DesignItemId : Designator=C1 Old DesignItemId=C0603-1¦Ì New DesignItemId=C0603-1?
+Change Component DesignItemId : Designator=C6 Old DesignItemId=C0603-1¦Ì New DesignItemId=C0603-1?
+Change Component DesignItemId : Designator=C13 Old DesignItemId=C0603-4¦Ì7-6.3V-X7 New DesignItemId=C0603-4¦Ì7-6.3V-X
+Added Component: Designator=P?(HDR1x2)
+Added Component: Designator=P?(HDR1x2)
+Added Pin To Net: NetName=GND Pin=P?-1
+Added Pin To Net: NetName=GND Pin=P?-1
+Added Pin To Net: NetName=VDD_NRF Pin=P?-2
+Added Pin To Net: NetName=VDD_NRF Pin=P?-2
+Added Member To Class: ClassName=nrf52840 Member=Component P? Header 2
+Added Room: Name=nrf52840

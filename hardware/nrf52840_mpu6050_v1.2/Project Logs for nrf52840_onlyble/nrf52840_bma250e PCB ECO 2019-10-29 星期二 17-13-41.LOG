@@ -1,0 +1,22 @@
+Change Component Description : Designator=C13 Old Description=Capacitor, X7R, ¡À10 New Description=Capacitor, X7R, ¡À10%
+Added Component: Designator=P1(bat)
+Added Component: Designator=P3(bat)
+Added Component: Designator=P4(bat)
+Added Component: Designator=P5(bat)
+Added Pin To Net: NetName=GND Pin=P1-1
+Added Pin To Net: NetName=VDD_NRF Pin=P1-2
+Added Pin To Net: NetName=VDD_NRF Pin=P1-2
+Added Pin To Net: NetName=GND Pin=P3-1
+Added Pin To Net: NetName=VDD_NRF Pin=P3-2
+Added Pin To Net: NetName=VDD_NRF Pin=P3-2
+Added Pin To Net: NetName=GND Pin=P4-1
+Added Pin To Net: NetName=VDD_NRF Pin=P4-2
+Added Pin To Net: NetName=VDD_NRF Pin=P4-2
+Added Pin To Net: NetName=GND Pin=P5-1
+Added Pin To Net: NetName=VDD_NRF Pin=P5-2
+Added Pin To Net: NetName=VDD_NRF Pin=P5-2
+Added Member To Class: ClassName=nrf52840 Member=Component P1 Header 2
+Added Member To Class: ClassName=nrf52840 Member=Component P3 Header 2
+Added Member To Class: ClassName=nrf52840 Member=Component P4 Header 2
+Added Member To Class: ClassName=nrf52840 Member=Component P5 Header 2
+Added Room: Name=nrf52840

@@ -1,0 +1,6 @@
+Change Component Footprint: Designator=P1 Old Footprint=HDR1_2_1.25 New Footprint=HDR1x2
+Added Component: Designator=P3(HDR1x2)
+Added Pin To Net: NetName=GND Pin=P3-1
+Added Pin To Net: NetName=VDD_NRF Pin=P3-2
+Added Member To Class: ClassName=nrf52840 Member=Component P3 Header 2
+Added Room: Name=nrf52840
