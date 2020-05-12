@@ -27,7 +27,53 @@ Project File Date:  10/28/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'nrf52840_xxaa'
-".\_build\nrf52840_xxaa.axf" - 0 Error(s), 0 Warning(s).
+compiling IIC_DMWZ.c...
+..\..\..\IIC_DMWZ.c(221): warning:  #177-D: variable "rc"  was declared but never referenced
+      unsigned char rc = 1;  
+..\..\..\IIC_DMWZ.c: 1 warning, 0 errors
+compiling boards.c...
+compiling main.c...
+..\..\..\main.c(233): warning:  #223-D: function "MPU6050_lowpowermode" declared implicitly
+  				 		MPU6050_lowpowermode();//MPU6050_SetSleepModeStatus(1);//进入休眠
+..\..\..\main.c(240): warning:  #223-D: function "MPU6050_InterruptStatus_Read" declared implicitly
+  		 MPU6050_InterruptStatus_Read(&data);
+..\..\..\main.c(251): warning:  #223-D: function "MPU6050_Initialize" declared implicitly
+  				{MPU6050_Initialize();}//进入工作模式
+..\..\..\main.c(273): warning:  #223-D: function "MPU6050_GetRawAccelGyro" declared implicitly
+  	MPU6050_GetRawAccelGyro(&uartbuf[bma250_i*usedata]);
+..\..\..\main.c(268): warning:  #177-D: variable "i"  was declared but never referenced
+  	static unsigned char i=0;
+..\..\..\main.c(269): warning:  #177-D: variable "j"  was declared but never referenced
+  	static unsigned short j=0;
+..\..\..\main.c(383): warning:  #177-D: variable "err_code"  was declared but never referenced
+          uint32_t err_code;
+..\..\..\main.c(886): warning:  #940-D: missing return statement at end of non-void function "Button_handle" 
+  }
+..\..\..\main.c(900): warning:  #167-D: argument of type "nrfx_gpiote_evt_handler_t (*)(nrfx_gpiote_pin_t, nrf_gpiote_polarity_t)" is incompatible with parameter of type "nrfx_gpiote_evt_handler_t"
+      err_code=
+rf_drv_gpiote_in_init(
+UTTON_0,&button_config,Button_handle);
+..\..\..\main.c(966): warning:  #223-D: function "MPU6050_Initialize" declared implicitly
+      MPU6050_Initialize();
+..\..\..\main.c(937): warning:  #177-D: variable "erase_bonds"  was declared but never referenced
+      bool erase_bonds;
+..\..\..\main.c(753): warning:  #177-D: function "uart_init"  was declared but never referenced
+  static void uart_init(void)
+..\..\..\main.c(814): warning:  #177-D: function "buttons_leds_init"  was declared but never referenced
+  static void buttons_leds_init(bool * p_erase_bonds)
+..\..\..\main.c(830): warning:  #177-D: function "log_init"  was declared but never referenced
+  static void log_init(void)
+..\..\..\main.c: 14 warnings, 0 errors
+compiling bsp.c...
+compiling bsp_btn_ble.c...
+compiling nrfx_gpiote.c...
+compiling nrfx_uart.c...
+compiling nrfx_uarte.c...
+compiling app_button.c...
+linking...
+Program Size: Code=15044 RO-data=1012 RW-data=176 ZI-data=11472  
+FromELF: creating hex file...
+".\_build\nrf52840_xxaa.axf" - 0 Error(s), 15 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -56,7 +102,7 @@ Package Vendor: NordicSemiconductor
       Source file:   Device\Source\arm\arm_startup_nrf52840.s
       Source file:   Device\Source\system_nrf52840.c
       Include file:  Device\Include\system_nrf52840.h
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:05:45
 </pre>
 </body>
 </html>

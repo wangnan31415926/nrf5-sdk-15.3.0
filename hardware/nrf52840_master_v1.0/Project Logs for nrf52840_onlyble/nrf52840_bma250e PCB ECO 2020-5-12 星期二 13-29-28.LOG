@@ -1,0 +1,11 @@
+Added Component: Designator=U3(HC-25)
+Added Pin To Net: NetName=GND Pin=U3-1
+Added Pin To Net: NetName=NetCON1_1 Pin=U3-2
+Added Pin To Net: NetName=GND Pin=U3-3
+Added Pin To Net: NetName=VCC_33 Pin=U3-4
+Added Pin To Net: NetName=NetJ1_2 Pin=U3-12
+Added Pin To Net: NetName=NetR1_1 Pin=U3-13
+Added Pin To Net: NetName=NRF52840_TX Pin=U3-14
+Added Pin To Net: NetName=NRF52840_RX Pin=U3-15
+Added Member To Class: ClassName=nrf52840 Member=Component U3 HC-25_wifi
+Added Room: Name=nrf52840

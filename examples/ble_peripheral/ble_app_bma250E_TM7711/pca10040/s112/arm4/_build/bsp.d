@@ -1,0 +1,13 @@
+.\_build\bsp.o: ..\..\..\..\..\..\components\libraries\bsp\bsp.c
+.\_build\bsp.o: ..\..\..\..\..\..\components\libraries\bsp\bsp.h
+.\_build\bsp.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\bsp.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\bsp.o: ..\..\..\..\..\..\components\boards\boards.h
+.\_build\bsp.o: ..\..\..\..\..\..\modules\nrfx\hal\nrf_gpio.h
+.\_build\bsp.o: ..\..\..\..\..\..\modules\nrfx\nrfx.h
+.\_build\bsp.o: ..\..\..\..\..\..\integration\nrfx\nrfx_config.h
+.\_build\bsp.o: ..\config\sdk_config.h
+.\_build\bsp.o: ..\..\..\..\..\..\modules\nrfx\drivers/nrfx_common.h
+.\_build\bsp.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\bsp.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\bsp.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h

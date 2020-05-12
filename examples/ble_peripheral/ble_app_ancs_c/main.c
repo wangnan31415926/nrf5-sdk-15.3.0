@@ -476,6 +476,7 @@ static void notif_print(ble_ancs_c_evt_notif_t * p_notif)
  */
 static void notif_attr_print(ble_ancs_c_attr_t * p_attr)
 {
+	NRF_LOG_INFO("wang/r/n");
     if (p_attr->attr_len != 0)
     {
         NRF_LOG_INFO("%s: %s", (uint32_t)lit_attrid[p_attr->attr_id],
@@ -493,7 +494,8 @@ static void notif_attr_print(ble_ancs_c_attr_t * p_attr)
  * @param[in] p_attr Pointer to an iOS App attribute.
  */
 static void app_attr_print(ble_ancs_c_attr_t * p_attr)
-{
+{	NRF_LOG_INFO("nan/r/n");
+
     if (p_attr->attr_len != 0)
     {
         NRF_LOG_INFO("%s: %s", (uint32_t)lit_appid[p_attr->attr_id], (uint32_t)p_attr->p_attr_data);

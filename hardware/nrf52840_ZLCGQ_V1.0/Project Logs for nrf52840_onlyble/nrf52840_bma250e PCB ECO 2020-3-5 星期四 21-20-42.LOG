@@ -1,0 +1,5 @@
+Removed Pin From Net: NetName=TM7711_2_SCK Pin=U3-A8
+Removed Pin From Net: NetName=TM7711_2_DOUT Pin=U3-A10
+Added Pin To Net: NetName=TM7711_2_DOUT Pin=U3-A8
+Added Pin To Net: NetName=TM7711_2_SCK Pin=U3-A10
+Added Room: Name=nrf52840

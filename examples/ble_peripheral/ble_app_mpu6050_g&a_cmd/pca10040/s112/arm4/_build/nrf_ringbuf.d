@@ -1,0 +1,17 @@
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\ringbuf\nrf_ringbuf.c
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\ringbuf\nrf_ringbuf.h
+.\_build\nrf_ringbuf.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\atomic\nrf_atomic.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\util\sdk_common.h
+.\_build\nrf_ringbuf.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\nrf_ringbuf.o: C:\Keil\ARM\RV31\INC\string.h
+.\_build\nrf_ringbuf.o: ..\config\sdk_config.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\util\nordic_common.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\modules\nrfx\mdk\compiler_abstraction.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\util\sdk_os.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\util\sdk_errors.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\softdevice\s112\headers\nrf_error.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\components\libraries\util\app_util.h
+.\_build\nrf_ringbuf.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\nrf_ringbuf.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h

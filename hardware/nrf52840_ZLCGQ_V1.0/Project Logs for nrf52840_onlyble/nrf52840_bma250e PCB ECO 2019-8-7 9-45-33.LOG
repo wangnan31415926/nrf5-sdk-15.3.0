@@ -1,0 +1,5 @@
+Change Component DesignItemId : Designator=C1 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì0
+Change Component DesignItemId : Designator=C6 Old DesignItemId=C0603-1¦Ì0 New DesignItemId=C0603-1¦Ì0
+Change Component DesignItemId : Designator=C15 Old DesignItemId=C0603-4¦Ì7-6.3V-X7R New DesignItemId=C0603-4¦Ì7-6.3V-X7R
+Change Component Designator: OldDesignator=vcc NewDesignator=P2
+Added Room: Name=nrf52840

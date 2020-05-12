@@ -219,7 +219,7 @@ typedef struct
     .ss_pin       = NRF_DRV_SPI_PIN_NOT_USED,                \
     .irq_priority = SPI_DEFAULT_CONFIG_IRQ_PRIORITY,         \
     .orc          = 0xFF,                                    \
-    .frequency    = NRF_DRV_SPI_FREQ_4M,                     \
+    .frequency    = NRF_DRV_SPI_FREQ_8M,                     \
     .mode         = NRF_DRV_SPI_MODE_0,                      \
     .bit_order    = NRF_DRV_SPI_BIT_ORDER_MSB_FIRST,         \
 }
@@ -362,7 +362,7 @@ void nrf_drv_spi_uninit(nrf_drv_spi_t const * const p_instance);
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
                                 uint8_t const * p_tx_buffer,
-                                uint8_t         tx_buffer_length,
+                                size_t tx_buffer_length,//uint8_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
                                 uint8_t         rx_buffer_length);
 
@@ -490,7 +490,7 @@ void nrf_drv_spi_uninit(nrf_drv_spi_t const * p_instance)
 __STATIC_INLINE
 ret_code_t nrf_drv_spi_transfer(nrf_drv_spi_t const * const p_instance,
                                 uint8_t const * p_tx_buffer,
-                                uint8_t         tx_buffer_length,
+                                size_t tx_buffer_length,//uint8_t         tx_buffer_length,
                                 uint8_t       * p_rx_buffer,
                                 uint8_t         rx_buffer_length)
 {

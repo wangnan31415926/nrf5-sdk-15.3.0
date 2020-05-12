@@ -107,7 +107,7 @@ NRF_SDH_BLE_OBSERVERS(_name ## _obs,                     \
 //wn
 #define BLE_UUID_NUS_SERVICE_GHG         0x0001
 #define BLE_UUID_NUS_SERVICE_BMA250      0x0002                      /**< The UUID of the Nordic UART Service. */
-#define BLE_UUID_NUS_SERVICE_MPU6050     0x0003
+#define BLE_UUID_NUS_SERVICE_MPU6050     0x0004
 //
 
 #define OPCODE_LENGTH 1

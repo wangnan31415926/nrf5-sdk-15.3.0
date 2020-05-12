@@ -96,7 +96,7 @@ void bsp_board_led_invert(uint32_t led_idx)
     nrf_gpio_pin_toggle(m_board_led_list[led_idx]);
 }
 
-#if defined(BOARD_PCA10059)
+//#if defined(BOARD_PCA10059)
 /**
  * Function for configuring UICR_REGOUT0 register
  * to set GPIO output voltage to 3.0V.
@@ -120,11 +120,11 @@ static void gpio_output_voltage_setup(void)
         NVIC_SystemReset();
     }
 }
-#endif
+//#endif
 
 static void bsp_board_leds_init(void)
 {
-    #if defined(BOARD_PCA10059)
+//    #if defined(BOARD_PCA10059)
     // If nRF52 USB Dongle is powered from USB (high voltage mode),
     // GPIO output voltage is set to 1.8 V by default, which is not
     // enough to turn on green and blue LEDs. Therefore, GPIO voltage
@@ -134,7 +134,7 @@ static void bsp_board_leds_init(void)
     {
         gpio_output_voltage_setup();
     }
-    #endif
+//    #endif
 
     uint32_t i;
     for (i = 0; i < LEDS_NUMBER; ++i)

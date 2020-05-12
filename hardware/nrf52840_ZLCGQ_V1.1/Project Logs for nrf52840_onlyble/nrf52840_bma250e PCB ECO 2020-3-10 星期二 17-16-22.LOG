@@ -1,0 +1,20 @@
+Change Component DesignItemId : Designator=C24 Old DesignItemId=CAP New DesignItemId=C0402-0.5p
+Change Component DesignItemId : Designator=C25 Old DesignItemId=CAP New DesignItemId=C0402-0.5p
+Change Component DesignItemId : Designator=C11 Old DesignItemId=CAP New DesignItemId=C0402-100n
+Change Component DesignItemId : Designator=C22 Old DesignItemId=CAP New DesignItemId=C0402-100n
+Change Component DesignItemId : Designator=C23 Old DesignItemId=CAP New DesignItemId=C0402-100n
+Change Component DesignItemId : Designator=C1 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C2 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C3 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C4 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C16 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C17 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C18 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C19 Old DesignItemId=CAP New DesignItemId=C0402-N.C.
+Change Component DesignItemId : Designator=C10 Old DesignItemId=CAP New DesignItemId=C0603-1?
+Added Component: Designator=CON1(IPX_U.FL)
+Added Pin To Net: NetName=RF Pin=CON1-1
+Added Pin To Net: NetName=GND Pin=CON1-2
+Added Pin To Net: NetName=GND Pin=CON1-3
+Added Member To Class: ClassName=nrf52840 Member=Component CON1 SMA/UFLR
+Added Room: Name=nrf52840

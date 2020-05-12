@@ -1,0 +1,7 @@
+Removed Pin From Net: NetName=GND Pin=C13-1
+Removed Pin From Net: NetName=DEC4_6 Pin=C13-2
+Removed Member From Class: ClassName=nrf52840 Member=C13
+Change Component DesignItemId : Designator=C5 Old DesignItemId=C0603-1¦Ì New DesignItemId=C0603-1?
+Change Component DesignItemId : Designator=C10 Old DesignItemId=C0603-1¦Ì New DesignItemId=C0603-1?
+Change Component DesignItemId : Designator=C21 Old DesignItemId=C0603-4¦Ì7-6.3V-X7 New DesignItemId=C0603-4¦Ì7-6.3V-X
+Added Room: Name=nrf52840

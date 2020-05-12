@@ -1,0 +1,6 @@
+Added Component: Designator=P3(connect_2)
+Added Pin To Net: NetName=P0.15 Pin=P3-1
+Added Pin To Net: NetName=GND Pin=P3-2
+Added Member To Class: ClassName=nrf52840 Member=Component P1 Header 3
+Added Member To Class: ClassName=nrf52840 Member=Component P3 Header 2
+Added Room: Name=nrf52840

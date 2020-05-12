@@ -1,0 +1,8 @@
+Removed Pin From Net: NetName=TM7711_2_SCK Pin=U3-B11
+Change Component DesignItemId : Designator=C21 Old DesignItemId=C0603-4¦Ì7-6.3V-X New DesignItemId=C0603-4¦Ì7-6.3V-
+Added Pin To Net: NetName=P0.06 Pin=R7-1
+Added Pin To Net: NetName=P0.08 Pin=R8-1
+Added Pin To Net: NetName=P0.08 Pin=U1-5
+Added Pin To Net: NetName=P0.06 Pin=U1-6
+Added Pin To Net: NetName=TM7711_2_SCK Pin=U3-A8
+Added Room: Name=nrf52840

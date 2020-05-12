@@ -927,7 +927,7 @@ void bma_init(void)
 	
 	//任意运动检测
 	BMA250E_WriteReg(BMA255_INT_CTRL_REG, 0x03);//设置中断为锁死模式
-	BMA250E_WriteReg(BMA255_SLOPE_THRES_REG, 0x01);//阈值寄存器设置 2g--3.91mg--0x14 4g--7.81mg 8g--15.63mg--0x0f 16g--31.25mg
+	BMA250E_WriteReg(BMA255_SLOPE_THRES_REG, 0x11);//阈值寄存器设置 2g--3.91mg--0x14 4g--7.81mg 8g--15.63mg--0x0f 16g--31.25mg
 	BMA250E_WriteReg(BMA255_SLOPE_DURN_REG, 0x00);//当斜率大于阈值，超过slope_dur+1的时间，产生中断
 	BMA250E_WriteReg(BMA255_INT1_PAD_SEL_REG, 0x04);//设置中断引脚init1
 	BMA250E_WriteReg(BMA255_INT_ENABLE1_REG,0x07); //中断使能设置

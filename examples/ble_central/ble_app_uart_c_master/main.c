@@ -92,6 +92,7 @@ NRF_BLE_GATT_DEF(m_gatt);                                               /**< GAT
 BLE_DB_DISCOVERY_DEF(m_db_disc);                                        /**< Database discovery module instance. */
 NRF_BLE_SCAN_DEF(m_scan);                                               /**< Scanning Module instance. */
 NRF_BLE_SCAN_DEF(m_scan_6050);                                               /**< Scanning Module instance. */
+NRF_BLE_SCAN_DEF(m_scan_GHG);                                               /**< Scanning Module instance. */
 
 static uint16_t m_ble_nus_max_data_len = BLE_GATT_ATT_MTU_DEFAULT - OPCODE_LENGTH - HANDLE_LENGTH; /**< Maximum length of data (in bytes) that can be transmitted to the peer by the Nordic UART service module. */
 
@@ -114,6 +115,12 @@ static ble_uuid_t const m_nus_uuid_6050 =
     .type = NUS_SERVICE_UUID_TYPE
 };
 
+/**@brief NUS UUID. */
+static ble_uuid_t const m_nus_uuid_GHG =
+{
+    .uuid = BLE_UUID_NUS_SERVICE_GHG,
+    .type = NUS_SERVICE_UUID_TYPE
+};
 
 /**@brief Function for handling asserts in the SoftDevice.
  *
@@ -207,6 +214,8 @@ static void scan_init(void)
 	  err_code = nrf_ble_scan_filter_set(&m_scan_6050, SCAN_UUID_FILTER, &m_nus_uuid_6050);
 	  APP_ERROR_CHECK(err_code);
 
+		err_code = nrf_ble_scan_filter_set(&m_scan_GHG, SCAN_UUID_FILTER, &m_nus_uuid_GHG);
+	  APP_ERROR_CHECK(err_code);
 
     err_code = nrf_ble_scan_filters_enable(&m_scan, NRF_BLE_SCAN_UUID_FILTER, false);
     APP_ERROR_CHECK(err_code);

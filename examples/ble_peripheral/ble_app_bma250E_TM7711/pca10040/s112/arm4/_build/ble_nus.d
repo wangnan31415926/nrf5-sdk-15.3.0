@@ -1,0 +1,15 @@
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\ble\ble_services\ble_nus\ble_nus.c
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\libraries\util\sdk_common.h
+.\_build\ble_nus.o: C:\Keil\ARM\RV31\INC\stdint.h
+.\_build\ble_nus.o: C:\Keil\ARM\RV31\INC\stdbool.h
+.\_build\ble_nus.o: C:\Keil\ARM\RV31\INC\string.h
+.\_build\ble_nus.o: ..\config\sdk_config.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\libraries\util\nordic_common.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\modules\nrfx\mdk\compiler_abstraction.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\libraries\util\sdk_os.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\libraries\util\sdk_errors.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\softdevice\s112\headers\nrf_error.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\components\libraries\util\app_util.h
+.\_build\ble_nus.o: C:\Keil\ARM\RV31\INC\stddef.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf.h
+.\_build\ble_nus.o: ..\..\..\..\..\..\modules\nrfx\mdk\nrf52.h

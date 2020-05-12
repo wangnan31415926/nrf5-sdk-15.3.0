@@ -1,0 +1,24 @@
+Removed Pin From Net: NetName=GND Pin=C7-2
+Removed Member From Class: ClassName=nrf52840 Member=C7
+Change Component DesignItemId : Designator=C21 Old DesignItemId=C0603-4¦Ì7-6.3V- New DesignItemId=C0603-4¦Ì7-6.3V
+Change Component Footprint: Designator=C1 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C2 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C3 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C4 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C10 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C11 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C16 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C17 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C18 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C19 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C22 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C23 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C24 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=C25 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=R9 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=R10 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=R15 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Footprint: Designator=R16 Old Footprint=0603-1 New Footprint=0402-a
+Change Component Description : Designator=C21 Old Description=Capacitor, X7R, ¡À10 New Description=Capacitor, X7R, ¡À10%
+Change Net Name : Old Net Name=NetC14_2 New Net Name=RF
+Added Room: Name=nrf52840

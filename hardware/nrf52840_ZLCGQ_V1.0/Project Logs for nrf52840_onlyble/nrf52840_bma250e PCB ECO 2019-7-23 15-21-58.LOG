@@ -1,0 +1,16 @@
+Removed Pin From Net: NetName=VDD_NRF Pin=U1-11
+Added Component: Designator=R1(0402-A)
+Added Component: Designator=R2(0402-A)
+Added Component: Designator=R3(0402-A)
+Added Pin To Net: NetName=P0.13 Pin=R1-1
+Added Pin To Net: NetName=VDD_NRF Pin=R1-2
+Added Pin To Net: NetName=P0.12 Pin=R2-1
+Added Pin To Net: NetName=VDD_NRF Pin=R2-2
+Added Pin To Net: NetName=VDD_NRF Pin=R3-1
+Added Pin To Net: NetName=NetR3_2 Pin=R3-2
+Added Pin To Net: NetName=NetR3_2 Pin=U1-11
+Added Net: Name=NetR3_2
+Added Member To Class: ClassName=nrf52840 Member=Component R1 10K
+Added Member To Class: ClassName=nrf52840 Member=Component R2 10K
+Added Member To Class: ClassName=nrf52840 Member=Component R3 10K
+Added Room: Name=nrf52840

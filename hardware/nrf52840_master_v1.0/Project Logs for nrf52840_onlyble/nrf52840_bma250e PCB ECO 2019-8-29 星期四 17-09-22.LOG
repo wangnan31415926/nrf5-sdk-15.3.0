@@ -1,0 +1,7 @@
+Added Component: Designator=P2(HDR1X4)
+Added Pin To Net: NetName=GND Pin=P2-1
+Added Pin To Net: NetName=SWDIO Pin=P2-2
+Added Pin To Net: NetName=SWDCLK Pin=P2-3
+Added Pin To Net: NetName=VDD_NRF Pin=P2-4
+Added Member To Class: ClassName=nrf52840 Member=Component P2 Header 4
+Added Room: Name=nrf52840

@@ -116,7 +116,7 @@
 
 
 #define BUTTON_0    15
-#define lowpower_timerover_max 2  //设置低功耗超时时间为5分钟，即5分钟无动作进入低功耗
+#define lowpower_timerover_max 3  //设置低功耗超时时间为5分钟，即5分钟无动作进入低功耗
 
 
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
@@ -202,7 +202,7 @@ void lowpower_timeout_handler(void * p_context)
 			NVIC_SystemReset();
 		}
 		
-		 if(lowpower_timer_i<(lowpower_timerover_max*5))
+		 if(lowpower_timer_i<(lowpower_timerover_max*60))
 		 {
 		 lowpower_timer_i++;
 		 }
