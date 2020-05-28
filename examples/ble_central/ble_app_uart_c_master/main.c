@@ -85,6 +85,7 @@ extern unsigned char ADDR_counter;
 #define ECHOBACK_BLE_UART_DATA  1                                       /**< Echo the UART data that is received over the Nordic UART Service (NUS) back to the sender. */
 APP_TIMER_DEF(m_test_timer_id);                                  /**< Battery timer. */
 APP_TIMER_DEF(m_SCAN_timer_id);
+APP_TIMER_DEF(m_DFU_timer_id);
 
 BLE_NUS_C_DEF(m_ble_wangnan_c);                                             /**< BLE Nordic UART Service (NUS) client instance. */
 BLE_NUS_C_ARRAY_DEF(m_ble_nus_c,NRF_SDH_BLE_CENTRAL_LINK_COUNT);  //BLE_NUS_C_DEF(m_ble_nus_c);                                             /**< BLE Nordic UART Service (NUS) client instance. */
@@ -100,7 +101,7 @@ unsigned char uartbuf[128];//串口发送缓冲区
 unsigned char length=0;   //串口需要发送的数据长度
 
 unsigned char mac_6_buf[6];//mac地址过滤缓冲区
-
+unsigned char dfu_flag=0;//进入升级模式标志位 1-进入升级模式
 /**@brief NUS UUID. */
 static ble_uuid_t const m_nus_uuid =
 {
@@ -122,6 +123,16 @@ static ble_uuid_t const m_nus_uuid_GHG =
     .type = NUS_SERVICE_UUID_TYPE
 };
 
+
+void EnterDFU(void)
+{
+    #define BOOTLOADER_DFU_GPREGRET_MASK            (0xB0)      
+    #define BOOTLOADER_DFU_START_BIT_MASK           (0x01)  
+    #define BOOTLOADER_DFU_START    (BOOTLOADER_DFU_GPREGRET_MASK | BOOTLOADER_DFU_START_BIT_MASK)      
+    sd_power_gpregret_clr(0,0xffffffff);
+    sd_power_gpregret_set(0, BOOTLOADER_DFU_START);
+    nrf_pwr_mgmt_shutdown(NRF_PWR_MGMT_SHUTDOWN_GOTO_DFU);
+}
 /**@brief Function for handling asserts in the SoftDevice.
  *
  * @details This function is called in case of an assert in the SoftDevice.
@@ -250,22 +261,32 @@ void Bluetooth_ReciveANDSend(void * p_event_data, uint16_t event_size)
  *
  * @details This function takes a list of characters of length data_len and prints the characters out on UART.
  *          If @ref ECHOBACK_BLE_UART_DATA is set, the data is sent back to sender.
- *///蓝牙接收串口发送函数
+ *///蓝牙接收串口发送函数 发送数据格式a5 5a xx uuid(16Byte) mac(6Byte) data
+#define uuid_length 16
+#define mac_length 6
 static void ble_nus_chars_received_uart_print(uint8_t * p_data, uint16_t data_len,uint16_t conn_handle)//wn
 {
     ret_code_t ret_val;
-
+    unsigned char i;
 //    NRF_LOG_DEBUG("Receiving data.");
 //    NRF_LOG_HEXDUMP_DEBUG(p_data, data_len);
-
-	  for(unsigned char i=0;i<16;i++)//准备发送的uuid
+		uartbuf[0]=0xa5;
+		uartbuf[1]=0x5a;
+		uartbuf[2]=uuid_length+mac_length+data_len;	
+		length=3;
+	
+	  for(unsigned char i=0;i<uuid_length;i++)//准备发送的uuid
 	  {
-		  uartbuf[i]=m_ble_nus_c[conn_handle].uuid[15-i];
+		  uartbuf[i+length]=m_ble_nus_c[conn_handle].uuid[15-i];
 	  }
-		length=16;
+		length=length+uuid_length;
 
-		memcpy(&uartbuf[length],&m_ble_nus_c[conn_handle].mac[0],6);   //mac地址存入串口发送缓冲区
-		length=length+6; 	
+		for(i=0;i<6;i++)
+		{
+			uartbuf[length+i]=m_ble_nus_c[conn_handle].mac[5-i];
+		}
+//		memcpy(&uartbuf[length],&m_ble_nus_c[conn_handle].mac[0],mac_length);   //mac地址存入串口发送缓冲区
+		length=length+mac_length; 	
 	
 		memcpy(&uartbuf[length],p_data,data_len);                      //将蓝牙接收的数据存入串口发送缓冲区
 		length=length+data_len;                                        //串口数据长度赋值
@@ -293,9 +314,16 @@ unsigned char crc8_(unsigned char* buf,unsigned char l)
 static unsigned char check_mac_save(unsigned char* buf)
 {
   unsigned char i;
+	unsigned char data[6];
+	
+	for(i=0;i<6;i++)
+	{
+		data[i]=buf[5-i];//需要大小端转换一下
+	}
+		
   for(i=0;i<ADDR_counter;i++)
   {
-    if(memcmp(buf,&ADDR_wn_[i][0],6)==0)
+    if(memcmp(data,&ADDR_wn_[i][0],6)==0)
     {
         check_mac_id=i;
         return 0;
@@ -308,6 +336,7 @@ static unsigned char check_mac_save(unsigned char* buf)
 //设置mac数据，此函数只进行缓存数据的处理
 unsigned char set_mac(unsigned char* buf)
 {
+	unsigned char i;
   if(ADDR_counter>NRF_SDH_BLE_CENTRAL_LINK_COUNT||ADDR_counter==NRF_SDH_BLE_CENTRAL_LINK_COUNT)//判断是否还有存储mac的空间
 	{
 		return 0x67;//没有空间
@@ -315,7 +344,11 @@ unsigned char set_mac(unsigned char* buf)
 	
 	if(check_mac_save(buf))//查找mac地址是否已经存储
 	{//没有存储，进行存储
-		memcpy(&ADDR_wn_[ADDR_counter][0],buf,6);
+		for(i=0;i<6;i++)
+		{
+			ADDR_wn_[ADDR_counter][i]=buf[5-i];//需要大小端转换一下
+		}
+//		memcpy(&ADDR_wn_[ADDR_counter][0],buf,6);
 		ADDR_counter++;
 	}
 	
@@ -416,7 +449,12 @@ void uart_event_handle(app_uart_evt_t * p_event)
                                                 uartbuf[0]=ADDR_counter;                                        //多少个mac地址需要过滤
                                                 if(ADDR_counter!=0)
 										        {
-										        	memcpy(&uartbuf[1],ADDR_wn_,6*ADDR_counter);                //mac地址存入串口发送缓冲区
+//										        	memcpy(&uartbuf[1],ADDR_wn_,6*ADDR_counter);                //mac地址存入串口发送缓冲区
+															for(unsigned char i=0;i<6*ADDR_counter;i++)
+															{
+																uartbuf[1+i]=((unsigned char *)ADDR_wn_)[6*ADDR_counter-1-i];
+															}
+															
 		                                            length=6*ADDR_counter+1;
                                                     uartbuf[length]=crc8_(uartbuf,length);                        //计算校验值
                                                     length++;                                                   //串口数据长度赋值
@@ -435,6 +473,12 @@ void uart_event_handle(app_uart_evt_t * p_event)
 									break;
 									case 0x05://复位
 			                                    NVIC_SystemReset();
+									break;
+									case 0x06://蓝牙升级模式
+															uartbuf[0]=0x96;
+															length=1;
+															app_sched_event_put(NULL,NULL, Bluetooth_ReciveANDSend);
+															dfu_flag=1;//进入dfu
 									break;
 								}
 							
@@ -720,6 +764,18 @@ void test_timeout_handler(void * p_context)
 
 }
 
+//1秒钟查看一次是否进入DFU、模式
+void DFU_timeout_handler(void * p_context)
+{
+		if(dfu_flag==1)
+		{
+			EnterDFU();
+			NVIC_SystemReset();
+		}
+   
+
+}
+
 
 void SCAN_timeout_handler(void * p_context)
 {
@@ -799,6 +855,12 @@ static void timer_init(void)
                                 APP_TIMER_MODE_SINGLE_SHOT,
                                 SCAN_timeout_handler);
     APP_ERROR_CHECK(err_code);
+	
+		  err_code = app_timer_create(&m_DFU_timer_id,
+                                APP_TIMER_MODE_REPEATED,
+                                DFU_timeout_handler);
+    APP_ERROR_CHECK(err_code);
+	
 }
 
 
@@ -846,7 +908,7 @@ static void application_timers_start(void)
     ret_code_t err_code;
 
     // Start application timers.
-    err_code = app_timer_start(m_test_timer_id, APP_TIMER_TICKS(30), NULL);
+    err_code = app_timer_start(m_DFU_timer_id, APP_TIMER_TICKS(1000), NULL);
     APP_ERROR_CHECK(err_code);
 
 }
@@ -886,13 +948,14 @@ int main(void)
     NRF_LOG_INFO("BLE UART central example started.");
     tx_power_set();
 //    scan_start();
-//    application_timers_start();
+//    
     // Enter main loop.
 	
    memset(ADDR_wn_,0,sizeof(ADDR_wn_));
 	//从flash获取mac相关过滤数据
 //	memcpy(ADDR_wn_,address_buf,6);//过滤mac付初值
-
+		dfu_flag=0;                //dfu标志清零
+		application_timers_start();
     for (;;)
     {
 			  app_sched_execute();
