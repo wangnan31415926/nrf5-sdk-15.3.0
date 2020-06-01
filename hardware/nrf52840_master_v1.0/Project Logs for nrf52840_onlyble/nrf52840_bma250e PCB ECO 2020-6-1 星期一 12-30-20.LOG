@@ -1,0 +1,12 @@
+Change Component DesignItemId : Designator=C14 Old DesignItemId=C0603-4¦Ì7-6.3 New DesignItemId=C0603-4¦Ì7-6.
+Change Component DesignItemId : Designator=C1 Old DesignItemId=CAP-0.1UF New DesignItemId=CAP-0.
+Change Component DesignItemId : Designator=C2 Old DesignItemId=CAP-0.1UF New DesignItemId=CAP-0.
+Change Component DesignItemId : Designator=C3 Old DesignItemId=CAP-0.1UF New DesignItemId=CAP-0.
+Change Component Description : Designator=C1 Old Description=SMD- New Description=SMD-CAP
+Change Component Description : Designator=C2 Old Description=SMD- New Description=SMD-CAP
+Change Component Description : Designator=C3 Old Description=SMD- New Description=SMD-CAP
+Added Component: Designator=C?(RB7.6-15)
+Added Pin To Net: NetName=VCC_33 Pin=C?-1
+Added Pin To Net: NetName=GND Pin=C?-2
+Added Member To Class: ClassName=nrf52840 Member=Component C? 100uf/25V
+Added Room: Name=nrf52840

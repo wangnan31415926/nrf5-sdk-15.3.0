@@ -1,0 +1,5 @@
+Added Component: Designator=C6(C_6.5_12.5_2.2_0.5)
+Added Pin To Net: NetName=VCC_33 Pin=C6-1
+Added Pin To Net: NetName=GND Pin=C6-2
+Added Member To Class: ClassName=nrf52840 Member=Component C6 100uf/25V
+Added Room: Name=nrf52840
